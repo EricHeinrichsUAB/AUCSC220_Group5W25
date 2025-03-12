@@ -2,6 +2,8 @@ package com.turbo21;
 
 import static java.util.Map.entry;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,5 +33,10 @@ public class Card {
         this.Rank = rank;
         this.Suit = suit;
         this.Value = ValueLookup.get(rank);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s of %s", this.Rank, this.Suit);
     }
 }
