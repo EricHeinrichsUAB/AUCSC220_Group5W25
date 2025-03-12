@@ -2,3 +2,4 @@
 ## Team
 - Eric Heinrichs
 - Daniel Thomas
+- Celina Wong
