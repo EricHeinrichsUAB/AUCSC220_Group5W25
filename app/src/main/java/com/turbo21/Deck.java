@@ -14,6 +14,8 @@ public class Deck {
 
     public Deck() {
         this.Count = 52;
+        this.Cards = new Stack<>();
+
 
         // Creating each card and adding it to the stack
         for (String suit : Suits) {
@@ -34,7 +36,6 @@ public class Deck {
     public void Shuffle() {
 
         Card[] cards = this.RemoveCardsFromStack();
-        this.Cards.clear();
 
         for (int i = 0; i < cards.length; i++) {
             int randInt = new Random().nextInt(cards.length);
@@ -50,9 +51,9 @@ public class Deck {
     }
 
     private Card[] RemoveCardsFromStack() {
-        Card[] cards = new Card[this.Cards.capacity()];
+        Card[] cards = new Card[this.Cards.size()];
 
-        for (int i = 0; i < this.Cards.capacity(); i++) {
+        for (int i = 0; i < cards.length; i++) {
             cards[i] = this.Cards.pop();
         }
 
@@ -63,5 +64,11 @@ public class Deck {
         for (Card card : cards) {
             this.Cards.push(card);
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.Cards.toString();
+
     }
 }
