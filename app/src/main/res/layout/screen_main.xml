@@ -28,7 +28,7 @@
         android:layout_marginStart="160dp"
         android:layout_marginTop="341dp"
         android:layout_marginEnd="163dp"
-        android:text="Play"
+        android:text="Play."
         android:fontFamily="@font/rowdies_regular"
         android:textSize="30sp"
         android:textColor="#FFFFFF"
