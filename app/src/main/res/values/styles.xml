@@ -1,0 +1,4 @@
+<resources>
+    <style name="LessRoundButton" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <item name="cornerSize">16dp</item></style>
+</resources>
