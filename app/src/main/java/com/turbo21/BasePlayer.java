@@ -10,12 +10,19 @@ public class BasePlayer {
         this.cards = new ArrayList<>();
     }
 
-    public void takeCard() {
+    /**
+     * Draws the top card from the deck and adds it to the Player's hand
+     */
+    public void drawCard() {
         Card card = GameManager.Deck.DrawCard();
-        this.takeCard(card);
+        this.drawCard(card);
     }
 
-    public void takeCard(Card card) {
+    /**
+     * Takes a Card as input and adds it to the Player's hand
+     * @param card the Card to add to the Player's hand
+     */
+    public void drawCard(Card card) {
         this.cards.add(card);
 
         this.handleAces();
@@ -46,6 +53,10 @@ public class BasePlayer {
         }
     }
 
+    /**
+     * Counts the values of all cards in the Player's hand and returns the sum
+     * @return the sum of the value of every card in the Player's hand
+     */
     private int countScore() {
         int sum = 0;
         for (Card card : this.cards) {
