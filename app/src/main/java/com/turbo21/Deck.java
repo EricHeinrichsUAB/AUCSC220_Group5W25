@@ -17,7 +17,7 @@ public class Deck {
         this.Cards = new Stack<>();
 
 
-        // Creating each card and adding it to the stack
+        // Creating cards of each rank and suit and adding it to the Deck
         for (String suit : Suits) {
             for (String rank : Ranks) {
                 Card card = new Card(rank, suit);
@@ -28,28 +28,40 @@ public class Deck {
         this.Shuffle();
     }
 
+    /**
+     * Removes the top Card from the Deck and returns it
+     * @return the top Card from the Deck
+     */
     public Card DrawCard() {
         this.Count -= 1;
         return this.Cards.pop();
     }
 
+    /**
+     * Randomizes the order of Cards within the Deck
+     */
     public void Shuffle() {
 
-        Card[] cards = this.RemoveCardsFromStack();
+        Card[] cardsShuffled = this.RemoveCardsFromStack();
 
-        for (int i = 0; i < cards.length; i++) {
-            int randInt = new Random().nextInt(cards.length);
+        // Swaps the card at index i with another card at a randomly generated index
+        for (int i = 0; i < cardsShuffled.length; i++) {
+            int randInt = GameManager.RandNumGenerator.nextInt(cardsShuffled.length);
 
-            Card card1 = (Card) cards[i];
-            Card card2 = (Card) cards[randInt];
+            Card card1 = cardsShuffled[i];
+            Card card2 = cardsShuffled[randInt];
 
-            cards[i] = card2;
-            cards[randInt] = card1;
+            cardsShuffled[i] = card2;
+            cardsShuffled[randInt] = card1;
         }
 
-        this.AddCardsToStack(cards);
+        this.AddCardsToStack(cardsShuffled);
     }
 
+    /**
+     * Removes all cards from the stack and returns them as an array
+     * @return an array of Cards in reverse order from the stack
+     */
     private Card[] RemoveCardsFromStack() {
         Card[] cards = new Card[this.Cards.size()];
 
@@ -60,6 +72,10 @@ public class Deck {
         return cards;
     }
 
+    /**
+     * Adds Cards from the input array to the stack
+     * @param cards the array of Cards to add to the stack
+     */
     private void AddCardsToStack(Card[] cards) {
         for (Card card : cards) {
             this.Cards.push(card);
