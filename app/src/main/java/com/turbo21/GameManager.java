@@ -11,15 +11,20 @@ public class GameManager {
     private static BasePlayer Dealer;
     private static Player Player;
 
+    /**
+     * Initializes game variables for the start of a new game, then transitions the view to
+     * the main game activity and begins the primary game loop
+     */
     public static void StartGame() {
         RoundNumber = 1;
         IsDealersTurn = false;
         Dealer = new BasePlayer();
         Player = new Player();
-
-        return;
     }
 
+    /**
+     * Handles all of the logic for the Dealer's turn
+     */
     private static void DoDealersTurn() {
         // General flow will be as follows:
         // Dealer compares their score to the players -> stop if greater
@@ -30,10 +35,17 @@ public class GameManager {
         // and have it make its decision based on the probability that it will not go over
     }
 
-    public static void DoHitButton(BasePlayer player) {
-        player.drawCard();
+    /**
+     * Removes the top card from the deck and adds it to the corresponding player's hand,
+     * depending on whose turn it is.
+     */
+    public static void DoHitButton() {
+
     }
 
+    /**
+     * Ends the current player's turn and switches to the other player
+     */
     public static void DoStandButton() {
         IsDealersTurn = !IsDealersTurn;
 
