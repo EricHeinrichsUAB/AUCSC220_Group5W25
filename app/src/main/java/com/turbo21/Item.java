@@ -1,6 +1,6 @@
 package com.turbo21;
 
-public class Item {
+public abstract class Item {
 
     public String name;
     public String description;
@@ -11,9 +11,5 @@ public class Item {
         this.description = description;
         this.cost = cost;
     }
-    public void UseItem() { // asbtract class
-        //
-    }
-
-
+    public abstract void UseItem();
 }
