@@ -30,7 +30,7 @@ public class BasePlayerTest {
 
         // Testing drawing a card directly from the deck
         BasePlayer testPlayer3 = new BasePlayer();
-        assertNull(testPlayer3.cards.get(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> testPlayer3.cards.get(0));
         testPlayer3.drawCard();
         assertNotNull(testPlayer3.cards.get(0));
     }
