@@ -46,7 +46,7 @@ public class Deck {
 
         // Swaps the card at index i with another card at a randomly generated index
         for (int i = 0; i < cardsShuffled.length; i++) {
-            int randInt = GameManager.RandNumGenerator.nextInt(cardsShuffled.length);
+            int randInt = GameManager.RandomNumberGenerator.nextInt(cardsShuffled.length);
 
             Card card1 = cardsShuffled[i];
             Card card2 = cardsShuffled[randInt];
