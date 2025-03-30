@@ -2,12 +2,12 @@ package com.turbo21;
 
 public abstract class Item {
 
-    public String nam;
+    public String name;
     public String description;
     public int cost;
 
     public Item(String name, String description, int cost) {
-        this.nam = nam;
+        this.name = name;
         this.description = description;
         this.cost = cost;
     }
