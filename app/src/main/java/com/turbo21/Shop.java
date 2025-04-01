@@ -6,16 +6,16 @@ public class Shop {
 
     public ArrayList<Item> Items;
 
-    public Shop {
+    public Shop() {
         ArrayList<Item> Items = new ArrayList<>(3);
     }
 
-    public Item SellItem(int intZeroToTwo) {
-        return Items[intZeroToTwo];
+    public void SellItem(int intZeroToTwo) { //changed to void for now
+        //return Items[intZeroToTwo];
     }
 
-    public Void RefreshItems {
-        //
+    public void RefreshItems() {
+
     }
 
 
