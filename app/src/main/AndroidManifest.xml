@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._21Turbo"
         tools:targetApi="31">
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,6 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Play Activity -->
+        <activity
+            android:name=".PlayActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>
