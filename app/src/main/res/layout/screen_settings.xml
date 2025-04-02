@@ -126,6 +126,21 @@
         app:layout_constraintStart_toStartOf="@id/toggleButton3"
         app:layout_constraintTop_toTopOf="@id/textView5" />
 
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#000000"
+        android:fontFamily="@font/rowdies_light"
+        android:text="Back"
+        android:textColor="#FFFFFF"
+        android:textSize="23sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/LessRoundButton" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineH"
         android:layout_width="wrap_content"
