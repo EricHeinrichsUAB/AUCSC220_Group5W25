@@ -28,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
 
         playButton = findViewById(R.id.playButton);
 
-        // OnClickListener
+
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // Create an Intent to start the PlayActivity
+                // Remember to cite this code
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(intent);
+
 
             }//onClick
         });//setOnClickListener
