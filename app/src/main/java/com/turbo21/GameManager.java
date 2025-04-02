@@ -1,3 +1,4 @@
+
 package com.turbo21;
 
 import java.util.Random;
@@ -22,6 +23,7 @@ public class GameManager {
         Player = new Player();
     }
 
+
     /**
      * Handles all of the logic for the Dealer's turn
      */
@@ -40,7 +42,7 @@ public class GameManager {
      * depending on whose turn it is.
      */
     public static void DoHitButton() {
-
+        Player.drawCard();
     }
 
     /**
@@ -54,3 +56,4 @@ public class GameManager {
         }
     }
 }
+
