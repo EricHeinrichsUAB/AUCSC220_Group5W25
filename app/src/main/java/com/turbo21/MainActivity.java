@@ -14,6 +14,7 @@ import android.content.Intent;
 public class MainActivity extends AppCompatActivity {
 
     private Button playButton;
+    private Button settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         playButton = findViewById(R.id.playButton);
+        settingsButton = findViewById(R.id.settingsButton);
 
         // OnClickListener
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -40,5 +42,15 @@ public class MainActivity extends AppCompatActivity {
             }//onClick
         });//setOnClickListener
 
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the SettingsActivity
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+
+            }//onClick
+            });//setOnClickListener
+        }
+
     }//onCreate()
-}
