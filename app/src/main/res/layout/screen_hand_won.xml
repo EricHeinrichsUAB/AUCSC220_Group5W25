@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/table_background"
-    tools:context=".HandWon"
+    tools:context=".HandWonActivity"
     tools:layout_editor_absoluteX="-18dp"
     tools:layout_editor_absoluteY="-48dp">
 
