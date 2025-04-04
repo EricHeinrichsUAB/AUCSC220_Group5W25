@@ -2,6 +2,7 @@ package com.turbo21;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.animation.ObjectAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -13,7 +14,6 @@ public class PlayActivity extends AppCompatActivity {
     private ImageView chip5, chip10, chip25, chip50, chip100;
     private Button hitButton, standButton;
     public int bet;
-    private static GameManager GameManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,6 @@ public class PlayActivity extends AppCompatActivity {
 
 
                 // animate card distribution
-
             }
         });//chip5.OnClickListener
 
@@ -84,7 +83,6 @@ public class PlayActivity extends AppCompatActivity {
 
         // dealer reveals hole card
         // dealer's turn to hit or stand
-        GameManager.DoDealersTurn();
 
         // back to player's turn -> next round/loop
 
