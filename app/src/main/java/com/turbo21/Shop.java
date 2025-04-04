@@ -10,12 +10,12 @@ public class Shop {
         ArrayList<Item> Items = new ArrayList<>(3);
     }
 
-    public void SellItem(int intZeroToTwo) { //changed to void for now
-        //return Items[intZeroToTwo];
+    public Item SellItem(int intZeroToTwo) {
+        return Items.get(intZeroToTwo);
     }
 
-    public void RefreshItems() {
-
+    public void RefreshItems () {
+        //
     }
 
 
