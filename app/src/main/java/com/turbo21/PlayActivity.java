@@ -3,8 +3,11 @@ package com.turbo21;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Button;
 import android.animation.ObjectAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,12 +16,16 @@ public class PlayActivity extends AppCompatActivity {
     private ImageView chip5, chip10, chip25, chip50, chip100;
     private Button hitButton, standButton;
     public int bet;
-    private static GameManager GameManager;
+    private GameManager GameManager = new GameManager();;
+    private ConstraintLayout gameScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_screen); // Set the play screen layout
+
+        GameManager.StartGame();
+        gameScreen = findViewById(R.id.gameScreen);
 
         chip5 = findViewById(R.id.chip5);
         chip10 = findViewById(R.id.chip10);
@@ -54,14 +61,9 @@ public class PlayActivity extends AppCompatActivity {
                 animator1.setInterpolator(new AccelerateDecelerateInterpolator()); //interpolator makes animation smoother
                 animator1.start();
 
-                // animate deck shuffling
-
-
-                // animate card distribution
-
+                spawnNewImageView();
             }
         });//chip5.OnClickListener
-
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
@@ -70,24 +72,53 @@ public class PlayActivity extends AppCompatActivity {
                 //Deck stack pops a card -> card spawns on Deck -> animation??
                 GameManager.DoHitButton();
             }
-        });//hitButton.setOnClickListener
+        });
 
         standButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GameManager.DoStandButton();
             }
-        });//standButton.setOnClickListener
+        });
 
 
         // calculate score
 
         // dealer reveals hole card
         // dealer's turn to hit or stand
-        GameManager.DoDealersTurn();
+        //GameManager.DoDealersTurn();
 
         // back to player's turn -> next round/loop
 
     }//onCreate
+
+    // animate deck shuffling
+    // animate card distribution
+    // imagine table is empty except for deck
+    // call shuffle function -> pops 4 cards
+    // spawns 4 cards and distributes them
+    // cards flip
+    private void spawnNewImageView() {
+        // Create and configure ImageView dynamically
+        final ImageView newImageView = new ImageView(PlayActivity.this);
+        newImageView.setImageResource(R.drawable.clubs1); // Example card image
+        newImageView.setLayoutParams(new ConstraintLayout.LayoutParams(200, 200));
+
+        // Position the ImageView initially outside the screen
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) newImageView.getLayoutParams();
+        params.leftMargin = -200; // Initial off-screen position
+        params.topMargin = 300; // Adjust position
+        newImageView.setLayoutParams(params);
+
+        // Add the ImageView to the layout
+        gameScreen.addView(newImageView);
+
+        // Animate the ImageView
+        ObjectAnimator animator = ObjectAnimator.ofFloat(newImageView, "translationX", -200f, 600f);
+        animator.setDuration(1000);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
+    }
+
 }
 

@@ -27,7 +27,7 @@ public class GameManager {
     /**
      * Handles all of the logic for the Dealer's turn
      */
-    private static void DoDealersTurn() {
+    public static void DoDealersTurn() {
         // General flow will be as follows:
         // Dealer compares their score to the players -> stop if greater
         // Dealer checks that their score is not over 18 -> stop if it is
@@ -35,6 +35,23 @@ public class GameManager {
 
         // Optionally, have the dealer keep track of every card that has been seen up to this point
         // and have it make its decision based on the probability that it will not go over
+
+        // easy CPU
+        // when player>CPU (and CPU<18), 30% chance that it will stand
+        // when CPU=18, 50% chance that it will hit
+
+        // medium CPU <- default
+        // when player>CPU (and CPU<18), 15% chance that it will stand
+        // when CPU=18, 30% chance that it will hit
+
+        // hard CPU
+        // when player>CPU (and CPU<18), 5% chance that it will stand
+        // when CPU=18, 15% chance that it will hit
+
+        if (Dealer.score <= 18) {
+            Dealer.drawCard();
+        }
+
     }
 
     /**
