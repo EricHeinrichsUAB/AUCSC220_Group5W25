@@ -1,18 +1,27 @@
 package com.turbo21;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.animation.ObjectAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.LinearLayout;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 public class PlayActivity extends AppCompatActivity {
 
     private ImageView chip5, chip10, chip25, chip50, chip100;
+    private ImageView topOfDeck;
     private Button hitButton, standButton;
+    private LinearLayout playerHand;
+    private LinearLayout dealerHand;
     public int bet;
 
     @Override
@@ -20,14 +29,12 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_screen); // Set the play screen layout
 
-        chip5 = findViewById(R.id.chip5);
-        chip10 = findViewById(R.id.chip10);
-        chip25 = findViewById(R.id.chip25);
-        chip50 = findViewById(R.id.chip50);
-        chip100 = findViewById(R.id.chip100);
+        topOfDeck = findViewById(R.id.topOfDeck);
 
         hitButton = findViewById(R.id.hitButton);
         standButton = findViewById(R.id.standButton);
+
+        playerHand = findViewById(R.id.playerHand);
 
         // ok, game starts from here
         // player decides how much to bet
@@ -41,7 +48,7 @@ public class PlayActivity extends AppCompatActivity {
         // dealer hits or stands
         // new round
 
-        // if a chip is pressed
+        /* if a chip is pressed
         chip5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +67,7 @@ public class PlayActivity extends AppCompatActivity {
                 // animate card distribution
             }
         });//chip5.OnClickListener
+         */
 
 
         // player can hit or stand
@@ -67,7 +75,19 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Deck stack pops a card -> card spawns on Deck -> animation??
-                GameManager.DoHitButton();
+                Card cardData = GameManager.DoHitButton();
+
+                // Creating a new card to move to the player's hand
+                // Adapted from:
+                // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
+                ImageView newCard = new ImageView(PlayActivity.this);
+
+                // Creating the card's visuals
+                int id = getResource(v.getContext(), cardData.FileName);
+                newCard.setImageResource(id);
+                newCard.bringToFront();
+
+                playerHand.addView(newCard);
             }
         });//hitButton.setOnClickListener
 
@@ -87,5 +107,15 @@ public class PlayActivity extends AppCompatActivity {
         // back to player's turn -> next round/loop
 
     }//onCreate
+
+    /*
+    Using the implementation described here:
+    https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
+     */
+    private int getResource (Context context, String name) {
+        Resources resources = context.getResources();
+        int id = resources.getIdentifier(name, "drawable", context.getPackageName());
+        return id;
+    }
 }
 
