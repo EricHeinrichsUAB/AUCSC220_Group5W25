@@ -8,18 +8,6 @@
     android:background="@drawable/table_background">
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01"
-        app:srcCompat="@drawable/back_of_card" />
-
-    <ImageView
         android:id="@+id/bottomOfDeck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,18 +42,6 @@
         app:layout_constraintVertical_bias="0.337"
         app:srcCompat="@drawable/back_of_card" />
 
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.711"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01"
-        app:srcCompat="@drawable/spades4" />
-
     <Button
         android:id="@+id/hitButton"
         android:layout_width="wrap_content"
@@ -96,8 +72,17 @@
         android:id="@+id/playerHand"
         android:layout_width="410dp"
         android:layout_height="139dp"
-        android:layout_marginTop="576dp"
+        android:layout_marginTop="592dp"
         android:isScrollContainer="true"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/dealerHand"
+        android:layout_width="412dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></LinearLayout>
