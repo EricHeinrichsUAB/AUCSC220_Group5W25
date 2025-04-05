@@ -41,8 +41,11 @@ public class GameManager {
      * Removes the top card from the deck and adds it to the corresponding player's hand,
      * depending on whose turn it is.
      */
-    public static void DoHitButton() {
-        Player.drawCard();
+    public static Card DoHitButton() {
+        Card card = Deck.DrawCard();
+        Player.drawCard(card);
+
+        return card;
     }
 
     /**
