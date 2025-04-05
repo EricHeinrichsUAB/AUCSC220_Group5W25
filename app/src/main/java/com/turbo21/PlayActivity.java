@@ -61,14 +61,10 @@ public class PlayActivity extends AppCompatActivity {
                 animator1.setInterpolator(new AccelerateDecelerateInterpolator()); //interpolator makes animation smoother
                 animator1.start();
 
-                // animate deck shuffling
-
-
-                // animate card distribution
+                spawnNewImageView();
             }
         });//chip5.OnClickListener
          */
-
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +103,35 @@ public class PlayActivity extends AppCompatActivity {
         // back to player's turn -> next round/loop
 
     }//onCreate
+
+    // animate deck shuffling
+    // animate card distribution
+    // imagine table is empty except for deck
+    // call shuffle function -> pops 4 cards
+    // spawns 4 cards and distributes them
+    // cards flip
+    private void spawnNewImageView() {
+        // Create and configure ImageView dynamically
+        final ImageView newImageView = new ImageView(PlayActivity.this);
+        newImageView.setImageResource(R.drawable.clubs1); // Example card image
+        newImageView.setLayoutParams(new ConstraintLayout.LayoutParams(200, 200));
+
+        // Position the ImageView initially outside the screen
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) newImageView.getLayoutParams();
+        params.leftMargin = -200; // Initial off-screen position
+        params.topMargin = 300; // Adjust position
+        newImageView.setLayoutParams(params);
+
+        // Add the ImageView to the layout
+        gameScreen.addView(newImageView);
+
+        // Animate the ImageView
+        ObjectAnimator animator = ObjectAnimator.ofFloat(newImageView, "translationX", -200f, 600f);
+        animator.setDuration(1000);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
+    }
+
 
     /*
     Using the implementation described here:
