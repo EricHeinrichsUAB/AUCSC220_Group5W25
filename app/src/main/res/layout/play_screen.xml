@@ -19,18 +19,19 @@
         app:srcCompat="@drawable/back_of_card" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/bottomOfDeck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.293"
+        app:layout_constraintVertical_bias="0.31"
         app:srcCompat="@drawable/back_of_card" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/middleOfDeck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,14 +43,14 @@
         app:srcCompat="@drawable/back_of_card" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/topOfDeck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352"
+        app:layout_constraintVertical_bias="0.337"
         app:srcCompat="@drawable/back_of_card" />
 
     <ImageView
@@ -68,29 +69,34 @@
         android:id="@+id/hitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="460dp"
+        android:layout_marginTop="231dp"
+        android:layout_marginBottom="452dp"
         android:text="Hit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/standButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="440dp"
+        android:layout_marginTop="231dp"
+        android:layout_marginBottom="452dp"
         android:text="Stand"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.876"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/playerHand"
-        android:layout_width="411dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="591dp"
+        android:layout_width="410dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="576dp"
+        android:isScrollContainer="true"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></LinearLayout>
