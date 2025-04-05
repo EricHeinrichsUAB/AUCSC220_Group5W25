@@ -21,6 +21,8 @@ public class PlayActivity extends AppCompatActivity {
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
     public int bet;
+    private BasePlayer player = GameManager.Player;
+    private BasePlayer dealer = GameManager.Dealer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class PlayActivity extends AppCompatActivity {
         standButton = findViewById(R.id.standButton);
 
         playerHand = findViewById(R.id.playerHand);
+        dealerHand = findViewById(R.id.dealerHand);
 
         // ok, game starts from here
         // player decides how much to bet
@@ -47,51 +50,33 @@ public class PlayActivity extends AppCompatActivity {
         // dealer hits or stands
         // new round
 
-        /* if a chip is pressed
-        chip5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // want all the chips to slide away??
-                bet = 5;
-
-                // Create ObjectAnimator to animate translationX (horizontal movement)
-                ObjectAnimator animator1 = ObjectAnimator.ofFloat(chip5, "translationX", 0f, 500f);
-                animator1.setDuration(1000);
-                animator1.setInterpolator(new AccelerateDecelerateInterpolator()); //interpolator makes animation smoother
-                animator1.start();
-
-                spawnNewImageView();
-            }
-        });//chip5.OnClickListener
-         */
-
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Deck stack pops a card -> card spawns on Deck -> animation??
-                Card cardData = GameManager.DoHitButton();
+                // Don't allow pressing the button when it's the dealer's turn
+                if (GameManager.IsDealersTurn) return;
 
-                // Creating a new card to move to the player's hand
-                // Adapted from:
-                // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
-                ImageView newCard = new ImageView(PlayActivity.this);
-
-                // Creating the card's visuals
-                int id = getResource(v.getContext(), cardData.FileName);
-                newCard.setImageResource(id);
-                newCard.bringToFront();
-
-                playerHand.addView(newCard);
+                addCardToHand(playerHand, player);
             }
         });//hitButton.setOnClickListener
 
         standButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameManager.DoStandButton();
+                if (GameManager.IsDealersTurn) return;
+
+                GameManager.IsDealersTurn = true;
+                doDealersTurn();
             }
         });//standButton.setOnClickListener
+
+        // drawing the initial 2 cards for each player
+        // Alternating between each player to replicate actual blackjack
+        addCardToHand(playerHand, player);
+        addCardToHand(dealerHand, dealer);
+        addCardToHand(playerHand, player);
+        addCardToHand(dealerHand, dealer);
 
 
         // calculate score
@@ -102,6 +87,13 @@ public class PlayActivity extends AppCompatActivity {
         // back to player's turn -> next round/loop
 
     }//onCreate
+
+    private void doDealersTurn() {
+        while (GameManager.IsStillDealersTurn()) {
+            addCardToHand(dealerHand, dealer);
+        }
+        GameManager.IsDealersTurn = false;
+    }
 
     // animate deck shuffling
     // animate card distribution
@@ -129,6 +121,23 @@ public class PlayActivity extends AppCompatActivity {
         animator.setDuration(1000);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.start();
+    }
+
+    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
+        // Creating a new card to move to the player's hand
+        // Adapted from:
+        // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
+        ImageView newCard = new ImageView(PlayActivity.this);
+        Card cardData = currentPlayer.drawCard();
+
+        System.out.println(hand);
+
+        // Creating the card's visuals
+        int id = getResource(PlayActivity.this, cardData.FileName);
+        newCard.setImageResource(id);
+        newCard.bringToFront();
+
+        hand.addView(newCard);
     }
 
 
