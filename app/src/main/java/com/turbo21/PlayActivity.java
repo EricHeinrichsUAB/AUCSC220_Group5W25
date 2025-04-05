@@ -2,7 +2,6 @@ package com.turbo21;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +10,11 @@ import android.animation.ObjectAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PlayActivity extends AppCompatActivity {
-
+    private ConstraintLayout gameScreen;
     private ImageView chip5, chip10, chip25, chip50, chip100;
     private ImageView topOfDeck;
     private Button hitButton, standButton;
@@ -29,6 +27,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_screen); // Set the play screen layout
 
+        gameScreen = findViewById(R.id.gameScreen);
         topOfDeck = findViewById(R.id.topOfDeck);
 
         hitButton = findViewById(R.id.hitButton);
@@ -113,7 +112,7 @@ public class PlayActivity extends AppCompatActivity {
     private void spawnNewImageView() {
         // Create and configure ImageView dynamically
         final ImageView newImageView = new ImageView(PlayActivity.this);
-        newImageView.setImageResource(R.drawable.clubs1); // Example card image
+        newImageView.setImageResource(R.drawable.clubsace); // Example card image
         newImageView.setLayoutParams(new ConstraintLayout.LayoutParams(200, 200));
 
         // Position the ImageView initially outside the screen
