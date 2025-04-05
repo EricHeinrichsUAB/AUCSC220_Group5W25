@@ -11,6 +11,8 @@ public class Card {
     public String Rank;
     public String Suit;
     public int Value;
+    public boolean IsHidden;
+    public String FileName;
 
     // Using the initialization method described here:
     // https://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way
@@ -30,9 +32,15 @@ public class Card {
             entry("Ace", 11)
     );
     public Card(String rank, String suit) {
+        this(rank, suit, false);
+    }
+
+    public Card(String rank, String suit, boolean isHidden) {
         this.Rank = rank;
         this.Suit = suit;
         this.Value = ValueLookup.get(rank);
+        this.IsHidden = isHidden;
+        this.FileName = String.format("%s%s", this.Suit.toLowerCase(), this.Rank.toLowerCase());
     }
 
     @Override
