@@ -35,18 +35,6 @@ public class PlayActivity extends AppCompatActivity {
 
         playerHand = findViewById(R.id.playerHand);
 
-        // ok, game starts from here
-        // player decides how much to bet
-        // the player and dealer are dealt random cards from the deck
-        // player's two cards are face up, while dealers' has one up, one down
-        // player gets to press hit or stand
-        // hit -> draw card -> increase sum of hand
-        // stand -> do nothing -> dealer's turn
-        // calculate score
-        // dealer reveals hole card
-        // dealer hits or stands
-        // new round
-
         /* if a chip is pressed
         chip5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,21 +82,9 @@ public class PlayActivity extends AppCompatActivity {
         });//standButton.setOnClickListener
 
 
-        // calculate score
-
-        // dealer reveals hole card
-        // dealer's turn to hit or stand
-
-        // back to player's turn -> next round/loop
-
     }//onCreate
 
-    // animate deck shuffling
-    // animate card distribution
-    // imagine table is empty except for deck
-    // call shuffle function -> pops 4 cards
-    // spawns 4 cards and distributes them
-    // cards flip
+
     private void spawnNewImageView() {
         // Create and configure ImageView dynamically
         final ImageView newImageView = new ImageView(PlayActivity.this);
