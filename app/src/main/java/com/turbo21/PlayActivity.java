@@ -90,28 +90,6 @@ public class PlayActivity extends AppCompatActivity {
         endRound();
     }
 
-    private void spawnNewImageView() {
-        // Create and configure ImageView dynamically
-        final ImageView newImageView = new ImageView(PlayActivity.this);
-        newImageView.setImageResource(R.drawable.clubsace); // Example card image
-        newImageView.setLayoutParams(new ConstraintLayout.LayoutParams(200, 200));
-
-        // Position the ImageView initially outside the screen
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) newImageView.getLayoutParams();
-        params.leftMargin = -200; // Initial off-screen position
-        params.topMargin = 300; // Adjust position
-        newImageView.setLayoutParams(params);
-
-        // Add the ImageView to the layout
-        gameScreen.addView(newImageView);
-
-        // Animate the ImageView
-        ObjectAnimator animator = ObjectAnimator.ofFloat(newImageView, "translationX", -200f, 600f);
-        animator.setDuration(1000);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.start();
-    }
-
     private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
         // Creating a new card to move to the player's hand
         // Adapted from:
