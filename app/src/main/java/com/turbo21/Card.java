@@ -40,7 +40,21 @@ public class Card {
         this.Suit = suit;
         this.Value = ValueLookup.get(rank);
         this.IsHidden = isHidden;
-        this.FileName = String.format("%s%s", this.Suit.toLowerCase(), this.Rank.toLowerCase());
+        adjustFileName();
+    }
+
+    public void toggleHidden() {
+        this.IsHidden = !this.IsHidden;
+        adjustFileName();
+    }
+
+    private void adjustFileName() {
+        if (this.IsHidden) {
+            this.FileName = "back_of_card";
+        }
+        else {
+            this.FileName = String.format("%s%s", this.Suit.toLowerCase(), this.Rank.toLowerCase());
+        }
     }
 
     @Override

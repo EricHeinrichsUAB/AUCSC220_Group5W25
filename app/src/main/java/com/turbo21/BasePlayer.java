@@ -13,9 +13,10 @@ public class BasePlayer {
     /**
      * Draws the top card from the deck and adds it to the Player's hand
      */
-    public void drawCard() {
+    public Card drawCard() {
         Card card = GameManager.Deck.DrawCard();
         this.drawCard(card);
+        return card;
     }
 
     /**
