@@ -40,6 +40,8 @@ public class HandWonActivity extends AppCompatActivity {
                 // Go back to play screen
                 Intent intent = new Intent(HandWonActivity.this, PlayActivity.class);
                 startActivity(intent);
+
+                GameManager.StartGame();
             }
         });
     }
