@@ -36,14 +36,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Create an Intent to start the PlayActivity
-                // Remember to cite this code
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(intent);
 
                 GameManager.StartGame();
 
-            }//onClick
-        });//setOnClickListener
+            }
+        });
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
 
-            }//onClick
-            });//setOnClickListener
+            }
+            });
         }
 
     }//onCreate()

@@ -44,17 +44,6 @@ public class PlayActivity extends AppCompatActivity {
         playerScore = findViewById(R.id.playerScore);
         dealerScore = findViewById(R.id.dealerScore);
 
-        // ok, game starts from here
-        // player decides how much to bet
-        // the player and dealer are dealt random cards from the deck
-        // player's two cards are face up, while dealers' has one up, one down
-        // player gets to press hit or stand
-        // hit -> draw card -> increase sum of hand
-        // stand -> do nothing -> dealer's turn
-        // calculate score
-        // dealer reveals hole card
-        // dealer hits or stands
-        // new round
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +57,7 @@ public class PlayActivity extends AppCompatActivity {
 
                 if (player.score > 21) endRound();
             }
-        });//hitButton.setOnClickListener
+        });
 
         standButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +67,7 @@ public class PlayActivity extends AppCompatActivity {
                 GameManager.IsDealersTurn = true;
                 doDealersTurn();
             }
-        });//standButton.setOnClickListener
+        });
 
         // drawing the initial 2 cards for each player
         // Alternating between each player to replicate actual blackjack
@@ -89,14 +78,6 @@ public class PlayActivity extends AppCompatActivity {
 
         updateScore(playerScore, player);
         updateScore(dealerScore, dealer);
-
-
-        // calculate score
-
-        // dealer reveals hole card
-        // dealer's turn to hit or stand
-
-        // back to player's turn -> next round/loop
 
     }//onCreate
 
@@ -109,12 +90,6 @@ public class PlayActivity extends AppCompatActivity {
         endRound();
     }
 
-    // animate deck shuffling
-    // animate card distribution
-    // imagine table is empty except for deck
-    // call shuffle function -> pops 4 cards
-    // spawns 4 cards and distributes them
-    // cards flip
     private void spawnNewImageView() {
         // Create and configure ImageView dynamically
         final ImageView newImageView = new ImageView(PlayActivity.this);
