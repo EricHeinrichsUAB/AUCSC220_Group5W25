@@ -15,12 +15,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PlayActivity extends AppCompatActivity {
     private ConstraintLayout gameScreen;
-    private ImageView chip5, chip10, chip25, chip50, chip100;
-    private ImageView topOfDeck;
     private Button hitButton, standButton;
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
-    public int bet;
     private BasePlayer player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
 
@@ -30,7 +27,6 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.play_screen); // Set the play screen layout
 
         gameScreen = findViewById(R.id.gameScreen);
-        topOfDeck = findViewById(R.id.topOfDeck);
 
         hitButton = findViewById(R.id.hitButton);
         standButton = findViewById(R.id.standButton);
