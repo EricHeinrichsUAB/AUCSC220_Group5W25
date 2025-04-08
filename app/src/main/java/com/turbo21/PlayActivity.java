@@ -1,8 +1,12 @@
 package com.turbo21;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -61,6 +65,8 @@ public class PlayActivity extends AppCompatActivity {
 
                 addCardToHand(playerHand, player);
                 updateScore(playerScore, player);
+
+                if (player.score > 21) endRound();
             }
         });//hitButton.setOnClickListener
 
@@ -100,6 +106,7 @@ public class PlayActivity extends AppCompatActivity {
             updateScore(dealerScore, dealer);
         }
         GameManager.IsDealersTurn = false;
+        endRound();
     }
 
     // animate deck shuffling
@@ -137,12 +144,9 @@ public class PlayActivity extends AppCompatActivity {
         ImageView newCard = new ImageView(PlayActivity.this);
         Card cardData = currentPlayer.drawCard();
 
-        System.out.println(hand);
-
         // Creating the card's visuals
-        int id = getResource(PlayActivity.this, cardData.FileName);
+        int id = getResourceId(PlayActivity.this, cardData.FileName);
         newCard.setImageResource(id);
-        newCard.bringToFront();
 
         hand.addView(newCard);
     }
@@ -152,12 +156,50 @@ public class PlayActivity extends AppCompatActivity {
         score.setText(newScore);
     }
 
+    private void endRound() {
+        Intent intent;
+        boolean playerWon = didPlayerWin();
+        System.out.println(playerWon);
+
+        if (playerWon) {
+
+            // Triggering the phone to vibrate, using the implementation described here
+            // https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+            else {
+                vibrator.vibrate(100);
+            }
+
+            intent = new Intent(PlayActivity.this, HandWonActivity.class);
+        }
+        else {
+            intent = new Intent(PlayActivity.this, HandLostActivity.class);
+        }
+
+        startActivity(intent);
+    }
+
+    private boolean didPlayerWin() {
+        if (player.score > 21){
+            return false;
+        }
+        else if (dealer.score > 21){
+            return true;
+        }
+        else{
+            return player.score >= dealer.score;
+        }
+    }
+
 
     /*
     Using the implementation described here:
     https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
      */
-    private int getResource (Context context, String name) {
+    private int getResourceId(Context context, String name) {
         Resources resources = context.getResources();
         int id = resources.getIdentifier(name, "drawable", context.getPackageName());
         return id;
