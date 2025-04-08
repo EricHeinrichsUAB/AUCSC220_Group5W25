@@ -25,7 +25,7 @@ public class PlayActivity extends AppCompatActivity {
     private LinearLayout dealerHand;
     private TextView playerScore;
     private TextView dealerScore;
-    private BasePlayer player = GameManager.Player;
+    private Player player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
 
     @Override
@@ -68,6 +68,8 @@ public class PlayActivity extends AppCompatActivity {
                 doDealersTurn();
             }
         });
+
+        GameManager.StartRound();
 
         // drawing the initial 2 cards for each player
         // Alternating between each player to replicate actual blackjack
@@ -112,7 +114,6 @@ public class PlayActivity extends AppCompatActivity {
     private void endRound() {
         Intent intent;
         boolean playerWon = didPlayerWin();
-        System.out.println(playerWon);
 
         if (playerWon) {
 
@@ -126,6 +127,7 @@ public class PlayActivity extends AppCompatActivity {
                 vibrator.vibrate(100);
             }
 
+            applyScoreMultipliers();
             intent = new Intent(PlayActivity.this, HandWonActivity.class);
         }
         else {
@@ -134,6 +136,17 @@ public class PlayActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    private void applyScoreMultipliers() {
+        int score = player.score;
+
+        // Do multipliers here
+        // one for round number
+        // one for how close to 21
+
+        player.OverallScore += score;
+    }
+
 
     private boolean didPlayerWin() {
         if (player.score > 21){
