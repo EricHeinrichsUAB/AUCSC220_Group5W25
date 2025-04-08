@@ -11,8 +11,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class HandWonActivity extends AppCompatActivity {
+    private TextView roundScore;
+    private TextView overallScore;
 
     private Button quitButton;
     private Button nextButton;
@@ -22,8 +25,14 @@ public class HandWonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen_hand_won);
 
+        roundScore = findViewById(R.id.roundScore);
+        overallScore = findViewById(R.id.overallScore);
+
         quitButton = findViewById(R.id.quitButton);
         nextButton = findViewById(R.id.nextButton);
+
+        roundScore.setText(String.format("Round Score: %s", GameManager.Player.score));
+        overallScore.setText(String.format("Overall Score: %s", GameManager.Player.OverallScore));
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +49,6 @@ public class HandWonActivity extends AppCompatActivity {
                 // Go back to play screen
                 Intent intent = new Intent(HandWonActivity.this, PlayActivity.class);
                 startActivity(intent);
-
-                GameManager.StartGame();
             }
         });
     }
