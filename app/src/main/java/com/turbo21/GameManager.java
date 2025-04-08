@@ -17,10 +17,19 @@ public class GameManager {
      * the main game activity and begins the primary game loop
      */
     public static void StartGame() {
-        RoundNumber = 1;
-        IsDealersTurn = false;
+        RoundNumber = 0;
         Dealer = new BasePlayer();
         Player = new Player();
+
+        StartRound();
+    }
+
+    public static void StartRound() {
+        RoundNumber++;
+        IsDealersTurn = false;
+
+        Dealer.resetScore();
+        Player.resetScore();
     }
 
 
