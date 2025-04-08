@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.animation.ObjectAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,6 +19,8 @@ public class PlayActivity extends AppCompatActivity {
     private Button hitButton, standButton;
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
+    private TextView playerScore;
+    private TextView dealerScore;
     private BasePlayer player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
 
@@ -33,6 +36,9 @@ public class PlayActivity extends AppCompatActivity {
 
         playerHand = findViewById(R.id.playerHand);
         dealerHand = findViewById(R.id.dealerHand);
+
+        playerScore = findViewById(R.id.playerScore);
+        dealerScore = findViewById(R.id.dealerScore);
 
         // ok, game starts from here
         // player decides how much to bet
@@ -54,6 +60,7 @@ public class PlayActivity extends AppCompatActivity {
                 if (GameManager.IsDealersTurn) return;
 
                 addCardToHand(playerHand, player);
+                updateScore(playerScore, player);
             }
         });//hitButton.setOnClickListener
 
@@ -74,6 +81,9 @@ public class PlayActivity extends AppCompatActivity {
         addCardToHand(playerHand, player);
         addCardToHand(dealerHand, dealer);
 
+        updateScore(playerScore, player);
+        updateScore(dealerScore, dealer);
+
 
         // calculate score
 
@@ -87,6 +97,7 @@ public class PlayActivity extends AppCompatActivity {
     private void doDealersTurn() {
         while (GameManager.IsStillDealersTurn()) {
             addCardToHand(dealerHand, dealer);
+            updateScore(dealerScore, dealer);
         }
         GameManager.IsDealersTurn = false;
     }
@@ -134,6 +145,11 @@ public class PlayActivity extends AppCompatActivity {
         newCard.bringToFront();
 
         hand.addView(newCard);
+    }
+
+    private void updateScore(TextView score, BasePlayer currentPlayer) {
+        String newScore = String.format("Score: %s", currentPlayer.score);
+        score.setText(newScore);
     }
 
 
