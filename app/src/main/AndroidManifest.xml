@@ -44,5 +44,11 @@
             android:exported="true">
         </activity>
 
+        <!-- Settings Activity -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 </manifest>
