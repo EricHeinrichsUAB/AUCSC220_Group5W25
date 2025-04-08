@@ -66,4 +66,12 @@ public class BasePlayer {
 
         return sum;
     }
+
+    /**
+     * Resets the Player's score to 0 and removes all cards from their hand
+     */
+    public void resetScore() {
+        this.score = 0;
+        this.cards.clear();
+    }
 }
