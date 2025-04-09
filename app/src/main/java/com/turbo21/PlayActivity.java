@@ -53,7 +53,7 @@ public class PlayActivity extends AppCompatActivity {
                 addCardToHand(playerHand, player);
                 updateScore(playerScore, player);
 
-                if (player.score > 21) endRound();
+                if (player.actualScore > 21) endRound();
             }
         });
 
@@ -72,7 +72,7 @@ public class PlayActivity extends AppCompatActivity {
         // drawing the initial 2 cards for each player
         // Alternating between each player to replicate actual blackjack
         addCardToHand(playerHand, player);
-        addCardToHand(dealerHand, dealer);
+        addCardToHand(dealerHand, dealer, true);
         addCardToHand(playerHand, player);
         addCardToHand(dealerHand, dealer);
 
@@ -82,6 +82,9 @@ public class PlayActivity extends AppCompatActivity {
     }//onCreate
 
     private void doDealersTurn() {
+        Card holeCard = dealer.cards.get(0);
+        holeCard.toggleHidden();
+
         while (GameManager.IsStillDealersTurn()) {
             addCardToHand(dealerHand, dealer);
             updateScore(dealerScore, dealer);
@@ -90,22 +93,31 @@ public class PlayActivity extends AppCompatActivity {
         endRound();
     }
 
-    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
+    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer, boolean hidden) {
         // Creating a new card to move to the player's hand
         // Adapted from:
         // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
         ImageView newCard = new ImageView(PlayActivity.this);
         Card cardData = currentPlayer.drawCard();
+        int id;
 
         // Creating the card's visuals
-        int id = getResourceId(PlayActivity.this, cardData.FileName);
+        if (hidden) {
+            cardData.toggleHidden();
+        }
+
+        id = getResourceId(PlayActivity.this, cardData.FileName);
         newCard.setImageResource(id);
 
         hand.addView(newCard);
     }
 
+    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
+        addCardToHand(hand, currentPlayer, false);
+    }
+
     private void updateScore(TextView score, BasePlayer currentPlayer) {
-        String newScore = String.format("Score: %s", currentPlayer.score);
+        String newScore = String.format("Score: %s", currentPlayer.displayedScore);
         score.setText(newScore);
     }
 
@@ -136,7 +148,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void applyScoreMultipliers() {
-        int score = player.score;
+        int score = player.actualScore;
 
         // Do multipliers here
         // one for round number
@@ -147,14 +159,14 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private boolean didPlayerWin() {
-        if (player.score > 21){
+        if (player.actualScore > 21){
             return false;
         }
-        else if (dealer.score > 21){
+        else if (dealer.actualScore > 21){
             return true;
         }
         else{
-            return player.score >= dealer.score;
+            return player.actualScore >= dealer.actualScore;
         }
     }
 
