@@ -59,10 +59,10 @@ public class GameManager {
 
         boolean stillDealersTurn;
 
-        if (Dealer.score > Player.score) {
+        if (Dealer.actualScore > Player.actualScore) {
             stillDealersTurn = false;
         }
-        else if (Dealer.score < 18) {
+        else if (Dealer.actualScore < 18) {
             stillDealersTurn = true;
         }
         else {
