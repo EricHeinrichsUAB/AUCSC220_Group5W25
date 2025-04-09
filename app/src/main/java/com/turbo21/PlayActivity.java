@@ -85,6 +85,10 @@ public class PlayActivity extends AppCompatActivity {
         Card holeCard = dealer.cards.get(0);
         holeCard.toggleHidden();
 
+        ImageView holeCardView = (ImageView) dealerHand.getChildAt(0);
+        int id = getResourceId(PlayActivity.this, holeCard.FileName);
+        holeCardView.setImageResource(id);
+
         while (GameManager.IsStillDealersTurn()) {
             addCardToHand(dealerHand, dealer);
             updateScore(dealerScore, dealer);
