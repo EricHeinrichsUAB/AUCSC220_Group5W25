@@ -55,12 +55,11 @@ public class PlayActivity extends AppCompatActivity {
                 updateScore(playerScore, player);
 
                 if (player.actualScore > 21) {
+                    // Delays transitioning to the next screen by 1 second
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
                         endRound();
                     }, 1000);
-
-
                 }
             }
         });
@@ -122,6 +121,13 @@ public class PlayActivity extends AppCompatActivity {
         handler.postDelayed(dealerFunction, 1000);
     }
 
+    /**
+     * Draws the top card from the deck, specified as either face up or face down, and  adds it to
+     * the appropriate player's hand
+     * @param hand the player whose hand to add the card to
+     * @param currentPlayer the player object to add the card's data to
+     * @param hidden whether the card should be drawn face down or not
+     */
     private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer, boolean hidden) {
         // Creating a new card to move to the player's hand
         // Adapted from:
@@ -141,16 +147,29 @@ public class PlayActivity extends AppCompatActivity {
         hand.addView(newCard);
     }
 
+    /**
+     * Draws the top card from the deck and adds it to the appropriate player's hand
+     * @param hand the player whose hand to add the card to
+     * @param currentPlayer the basePlayer object to add the card's data to
+     */
     private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
         addCardToHand(hand, currentPlayer, false);
     }
 
+    /**
+     * Updates the specified player's score on screen
+     * @param score the textView to be updated
+     * @param currentPlayer the basePlayer object whose score will be read
+     */
     private void updateScore(TextView score, BasePlayer currentPlayer) {
         currentPlayer.updateScore();
         String newScore = String.format("Score: %s", currentPlayer.displayedScore);
         score.setText(newScore);
     }
 
+    /**
+     * Transitions to the appropriate screen depending on whether the player won or not
+     */
     private void endRound() {
         Intent intent;
         boolean playerWon = didPlayerWin();
@@ -187,7 +206,10 @@ public class PlayActivity extends AppCompatActivity {
         player.OverallScore += score;
     }
 
-
+    /**
+     * Determines whether the player won or not
+     * @return a boolean indicating whether the player won
+     */
     private boolean didPlayerWin() {
         if (player.actualScore > 21){
             return false;
@@ -200,12 +222,17 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
-
-    /*
-    Using the implementation described here:
-    https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
+    /**
+     * Finds the specified resource name and returns it as an id
+     * @param context the context whose resources will be searched through
+     * @param name the name of the resource
+     * @return the id of the resource found
      */
     private int getResourceId(Context context, String name) {
+        /*
+        Using the implementation described here:
+        https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
+         */
         Resources resources = context.getResources();
         int id = resources.getIdentifier(name, "drawable", context.getPackageName());
         return id;
