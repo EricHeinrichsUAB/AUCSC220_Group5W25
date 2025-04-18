@@ -1,53 +1,51 @@
 package com.turbo21;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
+import android.widget.TextView;
 
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 public class HandWonActivity extends AppCompatActivity {
+    private TextView roundScore;
+    private TextView overallScore;
 
-    private Button playButton;
-    private Button menuButton;
+    private Button quitButton;
+    private Button nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.screen_hand_won);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.handWon), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        playButton = findViewById(R.id.playButton);
-        menuButton = findViewById(R.id.menuButton);
+        roundScore = findViewById(R.id.roundScore);
+        overallScore = findViewById(R.id.overallScore);
 
-        playButton.setOnClickListener(new View.OnClickListener() {
+        quitButton = findViewById(R.id.quitButton);
+        nextButton = findViewById(R.id.nextButton);
+
+        roundScore.setText(String.format("Round Score: %s", GameManager.Player.actualScore));
+        overallScore.setText(String.format("Overall Score: %s", GameManager.Player.OverallScore));
+
+        quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to start the PlayActivity
-                Intent intent = new Intent(HandWonActivity.this, PlayActivity.class);
-                startActivity(intent);
-            } //onClick
-        }); //setOnClickListener
-
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to start the SettingsActivity
+                // Go back to home screen
                 Intent intent = new Intent(HandWonActivity.this, MainActivity.class);
                 startActivity(intent);
-                } //onClick
-            }); //setOnClickListener
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Go back to play screen
+                Intent intent = new Intent(HandWonActivity.this, PlayActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
-
 }

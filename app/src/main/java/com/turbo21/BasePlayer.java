@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class BasePlayer {
     public ArrayList<Card> cards;
-    public int score;
+    public int actualScore;
+    public int displayedScore;
 
     public BasePlayer() {
         this.cards = new ArrayList<>();
@@ -13,9 +14,10 @@ public class BasePlayer {
     /**
      * Draws the top card from the deck and adds it to the Player's hand
      */
-    public void drawCard() {
+    public Card drawCard() {
         Card card = GameManager.Deck.DrawCard();
         this.drawCard(card);
+        return card;
     }
 
     /**
@@ -26,7 +28,12 @@ public class BasePlayer {
         this.cards.add(card);
 
         this.handleAces();
-        this.score = this.countScore();
+        this.updateScore();
+    }
+
+    public void updateScore() {
+        this.actualScore = this.countScore();
+        this.displayedScore = this.countScoreHidden();
     }
 
     /**
@@ -64,5 +71,23 @@ public class BasePlayer {
         }
 
         return sum;
+    }
+
+    private int countScoreHidden() {
+        int sum = 0;
+        for (Card card : this.cards) {
+            if (card.IsHidden) continue;
+            sum += card.Value;
+        }
+
+        return sum;
+    }
+
+    /**
+     * Resets the Player's score to 0 and removes all cards from their hand
+     */
+    public void resetScore() {
+        this.actualScore = 0;
+        this.cards.clear();
     }
 }

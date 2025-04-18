@@ -5,29 +5,38 @@ import java.util.Random;
 
 public class GameManager {
     private static int RoundNumber;
-    private static boolean IsDealersTurn;
+    public static boolean IsDealersTurn;
     public static Random RandomNumberGenerator = new Random();
     public static Deck Deck = new Deck();
     private static Shop Shop;
-    private static BasePlayer Dealer;
-    private static Player Player;
+    public static BasePlayer Dealer;
+    public static Player Player;
 
     /**
      * Initializes game variables for the start of a new game, then transitions the view to
      * the main game activity and begins the primary game loop
      */
     public static void StartGame() {
-        RoundNumber = 1;
-        IsDealersTurn = false;
+        RoundNumber = 0;
         Dealer = new BasePlayer();
         Player = new Player();
+
+        StartRound();
+    }
+
+    public static void StartRound() {
+        RoundNumber++;
+        IsDealersTurn = false;
+
+        Dealer.resetScore();
+        Player.resetScore();
     }
 
 
     /**
      * Handles all of the logic for the Dealer's turn
      */
-    public static void DoDealersTurn() {
+    public static boolean IsStillDealersTurn() {
         // General flow will be as follows:
         // Dealer compares their score to the players -> stop if greater
         // Dealer checks that their score is not over 18 -> stop if it is
@@ -48,32 +57,19 @@ public class GameManager {
         // when player>CPU (and CPU<18), 5% chance that it will stand
         // when CPU=18, 15% chance that it will hit
 
-        if (Dealer.score <= 18) {
-            Dealer.drawCard();
+        boolean stillDealersTurn;
+
+        if (Dealer.actualScore > Player.actualScore) {
+            stillDealersTurn = false;
+        }
+        else if (Dealer.actualScore < 18) {
+            stillDealersTurn = true;
+        }
+        else {
+            stillDealersTurn = false;
         }
 
-    }
-
-    /**
-     * Removes the top card from the deck and adds it to the corresponding player's hand,
-     * depending on whose turn it is.
-     */
-    public static Card DoHitButton() {
-        Card card = Deck.DrawCard();
-        Player.drawCard(card);
-
-        return card;
-    }
-
-    /**
-     * Ends the current player's turn and switches to the other player
-     */
-    public static void DoStandButton() {
-        IsDealersTurn = !IsDealersTurn;
-
-        if (IsDealersTurn) {
-            DoDealersTurn();
-        }
+        return stillDealersTurn;
     }
 }
 

@@ -41,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 GameManager.StartGame();
-
-            }//onClick
-        });//setOnClickListener
+            }
+        });
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 // Create an Intent to start the SettingsActivity
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
-
-            }//onClick
-            });//setOnClickListener
-        }
-
-    }//onCreate()
+            }
+        });
+    }
+}

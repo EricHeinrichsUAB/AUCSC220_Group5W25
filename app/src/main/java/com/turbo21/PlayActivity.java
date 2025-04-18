@@ -1,118 +1,238 @@
 package com.turbo21;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.animation.ObjectAnimator;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PlayActivity extends AppCompatActivity {
-
-    private ImageView chip5, chip10, chip25, chip50, chip100;
-    private ImageView topOfDeck;
+    private ConstraintLayout gameScreen;
     private Button hitButton, standButton;
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
-    public int bet;
+    private TextView playerScore;
+    private TextView dealerScore;
+    private Player player = GameManager.Player;
+    private BasePlayer dealer = GameManager.Dealer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_screen); // Set the play screen layout
 
-        topOfDeck = findViewById(R.id.topOfDeck);
+        gameScreen = findViewById(R.id.gameScreen);
 
         hitButton = findViewById(R.id.hitButton);
         standButton = findViewById(R.id.standButton);
 
         playerHand = findViewById(R.id.playerHand);
+        dealerHand = findViewById(R.id.dealerHand);
 
-        // ok, game starts from here
-        // player decides how much to bet
-        // the player and dealer are dealt random cards from the deck
-        // player's two cards are face up, while dealers' has one up, one down
-        // player gets to press hit or stand
-        // hit -> draw card -> increase sum of hand
-        // stand -> do nothing -> dealer's turn
-        // calculate score
-        // dealer reveals hole card
-        // dealer hits or stands
-        // new round
-
-        /* if a chip is pressed
-        chip5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // want all the chips to slide away??
-                bet = 5;
-
-                // Create ObjectAnimator to animate translationX (horizontal movement)
-                ObjectAnimator animator1 = ObjectAnimator.ofFloat(chip5, "translationX", 0f, 500f);
-                animator1.setDuration(1000);
-                animator1.setInterpolator(new AccelerateDecelerateInterpolator()); //interpolator makes animation smoother
-                animator1.start();
-
-                // animate deck shuffling
-
-
-                // animate card distribution
-            }
-        });//chip5.OnClickListener
-         */
+        playerScore = findViewById(R.id.playerScore);
+        dealerScore = findViewById(R.id.dealerScore);
 
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Deck stack pops a card -> card spawns on Deck -> animation??
-                Card cardData = GameManager.DoHitButton();
+                // Don't allow pressing the button when it's the dealer's turn
+                if (GameManager.IsDealersTurn) return;
 
-                // Creating a new card to move to the player's hand
-                // Adapted from:
-                // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
-                ImageView newCard = new ImageView(PlayActivity.this);
+                addCardToHand(playerHand, player);
+                updateScore(playerScore, player);
 
-                // Creating the card's visuals
-                int id = getResource(v.getContext(), cardData.FileName);
-                newCard.setImageResource(id);
-                newCard.bringToFront();
-
-                playerHand.addView(newCard);
+                if (player.actualScore > 21) {
+                    // Delays transitioning to the next screen by 1 second
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        endRound();
+                    }, 1000);
+                }
             }
-        });//hitButton.setOnClickListener
+        });
 
         standButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameManager.DoStandButton();
+                if (GameManager.IsDealersTurn) return;
+
+                GameManager.IsDealersTurn = true;
+                doDealersTurn();
             }
-        });//standButton.setOnClickListener
+        });
 
+        GameManager.StartRound();
 
-        // calculate score
+        // drawing the initial 2 cards for each player
+        // Alternating between each player to replicate actual blackjack
+        addCardToHand(playerHand, player);
+        addCardToHand(dealerHand, dealer, true);
+        addCardToHand(playerHand, player);
+        addCardToHand(dealerHand, dealer);
 
-        // dealer reveals hole card
-        // dealer's turn to hit or stand
-
-        // back to player's turn -> next round/loop
+        updateScore(playerScore, player);
+        updateScore(dealerScore, dealer);
 
     }//onCreate
 
-    /*
-    Using the implementation described here:
-    https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
+    private void doDealersTurn() {
+        Card holeCard = dealer.cards.get(0);
+        holeCard.toggleHidden();
+
+        ImageView holeCardView = (ImageView) dealerHand.getChildAt(0);
+        int id = getResourceId(PlayActivity.this, holeCard.FileName);
+        holeCardView.setImageResource(id);
+        updateScore(dealerScore, dealer);
+
+        // Using a handler allows us to run the dealer's AI at a fixed interval, in this case 1 second
+        // Adapted from https://stackoverflow.com/questions/41664409/wait-for-5-seconds
+        Handler handler = new Handler();
+        Runnable dealerFunction = new Runnable() {
+            @Override
+            public void run() {
+                addCardToHand(dealerHand, dealer);
+                updateScore(dealerScore, dealer);
+
+                if (GameManager.IsStillDealersTurn()) {
+                    handler.postDelayed(this, 1000);
+                }
+                else {
+                    handler.postDelayed(() -> {
+                        GameManager.IsDealersTurn = false;
+                        endRound();
+                    }, 1000);
+                }
+            }
+        };
+
+        handler.postDelayed(dealerFunction, 1000);
+    }
+
+    /**
+     * Draws the top card from the deck, specified as either face up or face down, and  adds it to
+     * the appropriate player's hand
+     * @param hand the player whose hand to add the card to
+     * @param currentPlayer the player object to add the card's data to
+     * @param hidden whether the card should be drawn face down or not
      */
-    private int getResource (Context context, String name) {
+    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer, boolean hidden) {
+        // Creating a new card to move to the player's hand
+        // Adapted from:
+        // https://stackoverflow.com/questions/2994494/how-do-i-create-an-imageview-in-java-code-within-an-existing-layout
+        ImageView newCard = new ImageView(PlayActivity.this);
+        Card cardData = currentPlayer.drawCard();
+        int id;
+
+        // Creating the card's visuals
+        if (hidden) {
+            cardData.toggleHidden();
+        }
+
+        id = getResourceId(PlayActivity.this, cardData.FileName);
+        newCard.setImageResource(id);
+
+        hand.addView(newCard);
+    }
+
+    /**
+     * Draws the top card from the deck and adds it to the appropriate player's hand
+     * @param hand the player whose hand to add the card to
+     * @param currentPlayer the basePlayer object to add the card's data to
+     */
+    private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer) {
+        addCardToHand(hand, currentPlayer, false);
+    }
+
+    /**
+     * Updates the specified player's score on screen
+     * @param score the textView to be updated
+     * @param currentPlayer the basePlayer object whose score will be read
+     */
+    private void updateScore(TextView score, BasePlayer currentPlayer) {
+        currentPlayer.updateScore();
+        String newScore = String.format("Score: %s", currentPlayer.displayedScore);
+        score.setText(newScore);
+    }
+
+    /**
+     * Transitions to the appropriate screen depending on whether the player won or not
+     */
+    private void endRound() {
+        Intent intent;
+        boolean playerWon = didPlayerWin();
+
+        if (playerWon) {
+
+            // Triggering the phone to vibrate, using the implementation described here
+            // https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+            else {
+                vibrator.vibrate(100);
+            }
+
+            applyScoreMultipliers();
+            intent = new Intent(PlayActivity.this, HandWonActivity.class);
+        }
+        else {
+            intent = new Intent(PlayActivity.this, HandLostActivity.class);
+        }
+
+        startActivity(intent);
+    }
+
+    private void applyScoreMultipliers() {
+        int score = player.actualScore;
+
+        // Do multipliers here
+        // one for round number
+        // one for how close to 21
+
+        player.OverallScore += score;
+    }
+
+    /**
+     * Determines whether the player won or not
+     * @return a boolean indicating whether the player won
+     */
+    private boolean didPlayerWin() {
+        if (player.actualScore > 21){
+            return false;
+        }
+        else if (dealer.actualScore > 21){
+            return true;
+        }
+        else{
+            return player.actualScore >= dealer.actualScore;
+        }
+    }
+
+    /**
+     * Finds the specified resource name and returns it as an id
+     * @param context the context whose resources will be searched through
+     * @param name the name of the resource
+     * @return the id of the resource found
+     */
+    private int getResourceId(Context context, String name) {
+        /*
+        Using the implementation described here:
+        https://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android#comment23457549_16369892
+         */
         Resources resources = context.getResources();
         int id = resources.getIdentifier(name, "drawable", context.getPackageName());
         return id;
