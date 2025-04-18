@@ -28,6 +28,10 @@ public class BasePlayer {
         this.cards.add(card);
 
         this.handleAces();
+        this.updateScore();
+    }
+
+    public void updateScore() {
         this.actualScore = this.countScore();
         this.displayedScore = this.countScoreHidden();
     }
