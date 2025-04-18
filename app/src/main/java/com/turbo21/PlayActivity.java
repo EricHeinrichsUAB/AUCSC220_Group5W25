@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
@@ -88,13 +90,30 @@ public class PlayActivity extends AppCompatActivity {
         ImageView holeCardView = (ImageView) dealerHand.getChildAt(0);
         int id = getResourceId(PlayActivity.this, holeCard.FileName);
         holeCardView.setImageResource(id);
+        updateScore(dealerScore, dealer);
 
-        while (GameManager.IsStillDealersTurn()) {
-            addCardToHand(dealerHand, dealer);
-            updateScore(dealerScore, dealer);
-        }
-        GameManager.IsDealersTurn = false;
-        endRound();
+        // Using a handler allows us to run the dealer's AI at a fixed interval, in this case 1 second
+        // Adapted from https://stackoverflow.com/questions/41664409/wait-for-5-seconds
+        Handler handler = new Handler();
+        Runnable dealerFunction = new Runnable() {
+            @Override
+            public void run() {
+                addCardToHand(dealerHand, dealer);
+                updateScore(dealerScore, dealer);
+
+                if (GameManager.IsStillDealersTurn()) {
+                    handler.postDelayed(this, 1000);
+                }
+                else {
+                    handler.postDelayed(() -> {
+                        GameManager.IsDealersTurn = false;
+                        endRound();
+                    }, 1000);
+                }
+            }
+        };
+
+        handler.postDelayed(dealerFunction, 1000);
     }
 
     private void addCardToHand(LinearLayout hand, BasePlayer currentPlayer, boolean hidden) {
@@ -121,6 +140,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void updateScore(TextView score, BasePlayer currentPlayer) {
+        currentPlayer.updateScore();
         String newScore = String.format("Score: %s", currentPlayer.displayedScore);
         score.setText(newScore);
     }
