@@ -30,6 +30,5 @@ public class HandLostActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

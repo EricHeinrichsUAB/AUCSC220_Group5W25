@@ -55,6 +55,7 @@ public class Card {
         else {
             this.FileName = String.format("%s%s", this.Suit.toLowerCase(), this.Rank.toLowerCase());
         }
+        this.FileName = String.format("%s%s", this.Suit.toLowerCase(), this.Rank.toLowerCase());
     }
 
     @Override
