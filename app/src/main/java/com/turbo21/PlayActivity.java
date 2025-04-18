@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -55,7 +54,14 @@ public class PlayActivity extends AppCompatActivity {
                 addCardToHand(playerHand, player);
                 updateScore(playerScore, player);
 
-                if (player.actualScore > 21) endRound();
+                if (player.actualScore > 21) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        endRound();
+                    }, 1000);
+
+
+                }
             }
         });
 
