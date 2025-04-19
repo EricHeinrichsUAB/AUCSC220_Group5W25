@@ -50,5 +50,11 @@
             android:exported="true">
         </activity>
 
+        <!-- Shop Activity -->
+        <activity
+            android:name=".ShopActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 </manifest>
