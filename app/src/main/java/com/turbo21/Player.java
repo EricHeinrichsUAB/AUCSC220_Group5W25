@@ -7,6 +7,7 @@ public class Player extends BasePlayer {
     public int OverallScore;
     public ArrayList<Item> Items;
 
+
     public Player() {
         super();
         this.Money = 0;
@@ -22,6 +23,12 @@ public class Player extends BasePlayer {
         // Handle any modifiers here
 
         this.Money += amount;
+    }
+
+    public void subtractMoney(int amount) {
+        // Handle any modifiers here
+
+        this.Money -= amount;
     }
 
     /**

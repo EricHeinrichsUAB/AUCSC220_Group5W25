@@ -19,13 +19,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PlayActivity extends AppCompatActivity {
     private ConstraintLayout gameScreen;
-    private Button hitButton, standButton;
+    private Button hitButton, standButton, BullseyeButton;
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
     private TextView playerScore;
     private TextView dealerScore;
     private Player player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
+    Bullseye bullseye;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class PlayActivity extends AppCompatActivity {
 
         hitButton = findViewById(R.id.hitButton);
         standButton = findViewById(R.id.standButton);
+        BullseyeButton = findViewById(R.id.BullseyeButton);
 
         playerHand = findViewById(R.id.playerHand);
         dealerHand = findViewById(R.id.dealerHand);
@@ -71,6 +73,15 @@ public class PlayActivity extends AppCompatActivity {
 
                 GameManager.IsDealersTurn = true;
                 doDealersTurn();
+            }
+        });
+
+        // next, make it so that this can only be clicked before/after player hit
+        BullseyeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bullseye = new Bullseye(PlayActivity.this);
+                bullseye.UseItem(player.actualScore);
             }
         });
 
@@ -186,7 +197,7 @@ public class PlayActivity extends AppCompatActivity {
                 vibrator.vibrate(100);
             }
 
-            applyScoreMultipliers();
+            //applyScoreMultipliers();
             intent = new Intent(PlayActivity.this, HandWonActivity.class);
         }
         else {
@@ -196,14 +207,14 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void applyScoreMultipliers() {
-        int score = player.actualScore;
+    public void applyScoreMultipliers(int score, double multiplier) {
+        //int score = player.actualScore;
 
         // Do multipliers here
         // one for round number
         // one for how close to 21
 
-        player.OverallScore += score;
+        player.OverallScore += score * multiplier;
     }
 
     /**

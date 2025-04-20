@@ -14,6 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 public class ShopActivity extends AppCompatActivity {
 
     private Button backButton2;
+    private Button SwitchStrikeBuyButton;
+    private Button BullseyeBuyButton;
+    private Button DoubleDownBuyButton;
+    private Player player = GameManager.Player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,10 @@ public class ShopActivity extends AppCompatActivity {
          */
 
         backButton2 = findViewById(R.id.backButton2);
+        SwitchStrikeBuyButton = findViewById(R.id.SwitchStrikeBuyButton);
+        BullseyeBuyButton = findViewById(R.id.BullseyeBuyButton);
+        DoubleDownBuyButton = findViewById(R.id.DoubleDownBuyButton);
+
 
         backButton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,9 +45,38 @@ public class ShopActivity extends AppCompatActivity {
                 // Create an Intent to start the SettingsActivity
                 Intent intent = new Intent(ShopActivity.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
 
-            }//onClick
-        });//setOnClickListener
+        SwitchStrikeBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+
+            }
+        });
+
+        /*
+        - Player - subtract money from Player
+        - Player - add item to list of Player's items (BullseyeCount++)
+        - Shop - ?
+         */
+        BullseyeBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                player.subtractMoney(5);
+                //player.addItem(Bullseye);
+            }
+        });
+
+        DoubleDownBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+
+            }
+        });
+
     }
 
 }
