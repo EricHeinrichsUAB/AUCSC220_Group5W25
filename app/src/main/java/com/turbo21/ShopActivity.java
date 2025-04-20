@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.widget.TextView;
+import android.util.Log;
+import android.graphics.Color;
+
 
 public class ShopActivity extends AppCompatActivity {
 
@@ -18,6 +22,9 @@ public class ShopActivity extends AppCompatActivity {
     private Button BullseyeBuyButton;
     private Button DoubleDownBuyButton;
     private Player player = GameManager.Player;
+
+    private Shop shop;
+    private TextView itemBoughtText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +40,20 @@ public class ShopActivity extends AppCompatActivity {
         });
          */
 
+        // Initialize player if not already initialized
+        if (GameManager.Player == null) {
+            GameManager.Player = new Player(); // Ensure Player constructor matches your implementation
+        }
+        player = GameManager.Player;
+
+        PlayActivity activity = new PlayActivity();
+        shop = new Shop(activity);
+
         backButton2 = findViewById(R.id.backButton2);
         SwitchStrikeBuyButton = findViewById(R.id.SwitchStrikeBuyButton);
         BullseyeBuyButton = findViewById(R.id.BullseyeBuyButton);
         DoubleDownBuyButton = findViewById(R.id.DoubleDownBuyButton);
+        itemBoughtText = findViewById(R.id.itemBoughtText);
 
 
         backButton2.setOnClickListener(new View.OnClickListener() {
@@ -57,16 +74,21 @@ public class ShopActivity extends AppCompatActivity {
         });
 
         /*
-        - Player - subtract money from Player
-        - Player - add item to list of Player's items (BullseyeCount++)
-        - Shop - ?
+        e.g. player.Items = [Bullseye, SwitchStrike, DoubleDown]
          */
-        BullseyeBuyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                player.subtractMoney(5);
-                //player.addItem(Bullseye);
-            }
+        BullseyeBuyButton.setOnClickListener(v -> {
+            player.subtractMoney(100);
+            Item boughtItem = shop.SellItem(1);
+            player.addItem(boughtItem);
+            String itemAsString = boughtItem.toString();  // outputs "Bullseye"
+
+            String message = "Bought: " + itemAsString +
+                    "\nMoney left: " + player.Money +
+                    "\nInventory: " + player.Items;
+
+            itemBoughtText.setText(message);
+            itemBoughtText.setTextColor(Color.parseColor("red"));
+            itemBoughtText.setVisibility(View.VISIBLE);
         });
 
         DoubleDownBuyButton.setOnClickListener(new View.OnClickListener() {

@@ -12,4 +12,9 @@ public abstract class Item {
         this.cost = cost;
     }
     public abstract void UseItem(int score);
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

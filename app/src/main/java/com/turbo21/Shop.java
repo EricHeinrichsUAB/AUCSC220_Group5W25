@@ -4,14 +4,24 @@ import java.util.ArrayList;
 
 public class Shop {
 
-    public ArrayList<Item> Items;
+    public ArrayList<Item> ItemsCatelogue;
+    private PlayActivity playActivity;
 
-    public Shop() {
-        ArrayList<Item> Items = new ArrayList<>(3);
+    public Shop(PlayActivity playActivity) {
+        this.playActivity = playActivity;
+        ItemsCatelogue = new ArrayList<>(3);
+        ItemsCatelogue.add(new SwitchStrike(playActivity));
+        ItemsCatelogue.add(new Bullseye(playActivity));
+        ItemsCatelogue.add(new DoubleDown(playActivity));
     }
 
-    public Item SellItem(int intZeroToTwo) {
-        return Items.get(intZeroToTwo);
+    // Shop distributes the item (it has an unlimited quantity)
+    public Item SellItem(int index) {
+        if (ItemsCatelogue != null && index >= 0 && index < ItemsCatelogue.size()) {
+            return ItemsCatelogue.get(index);
+        } else {
+            return null;
+        }
     }
 
     public void RefreshItems () {
