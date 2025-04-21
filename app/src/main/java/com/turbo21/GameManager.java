@@ -4,7 +4,7 @@ package com.turbo21;
 import java.util.Random;
 
 public class GameManager {
-    private static int RoundNumber;
+    public static int RoundNumber;
     public static boolean IsDealersTurn;
     public static Random RandomNumberGenerator = new Random();
     public static Deck Deck = new Deck();
