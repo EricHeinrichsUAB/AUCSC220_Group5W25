@@ -103,10 +103,10 @@ public class PlayActivity extends AppCompatActivity {
         Runnable dealerFunction = new Runnable() {
             @Override
             public void run() {
-                addCardToHand(dealerHand, dealer);
-                updateScore(dealerScore, dealer);
-
                 if (GameManager.IsStillDealersTurn()) {
+                    addCardToHand(dealerHand, dealer);
+                    updateScore(dealerScore, dealer);
+
                     handler.postDelayed(this, 1000);
                 }
                 else {
