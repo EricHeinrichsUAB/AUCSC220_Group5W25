@@ -55,6 +55,7 @@ public class PlayActivity extends AppCompatActivity {
                 updateScore(playerScore, player);
 
                 if (player.actualScore > 21) {
+                    GameManager.IsDealersTurn = true;
                     // Delays transitioning to the next screen by 1 second
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
