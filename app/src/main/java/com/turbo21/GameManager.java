@@ -17,7 +17,7 @@ public class GameManager {
      * the main game activity and begins the primary game loop
      */
     public static void StartGame() {
-        RoundNumber = 0;
+        RoundNumber = -1; // Hacky solution to round number being 1 higher than expected
         Dealer = new BasePlayer();
         Player = new Player();
 
