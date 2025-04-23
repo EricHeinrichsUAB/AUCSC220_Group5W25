@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
         musicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPlaying) {
+                if (BackgroundMusicService.isRunning) {
                     stopService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
                     isPlaying = false;
                 } else {
