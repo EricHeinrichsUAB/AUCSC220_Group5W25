@@ -3,15 +3,17 @@ package com.turbo21;
 import java.util.ArrayList;
 
 public class Player extends BasePlayer {
-    public int Money;
-    public int OverallScore;
-    public ArrayList<Item> Items;
+    public int money;
+    public int overallScore;
+    public int cardsDrawn;
+    public ArrayList<Item> items;
 
     public Player() {
         super();
-        this.Money = 0;
-        this.OverallScore = 0;
-        this.Items = new ArrayList<>(3);
+        this.money = 0;
+        this.overallScore = 0;
+        this.cardsDrawn = 0;
+        this.items = new ArrayList<>(3);
     }
 
     /**
@@ -21,7 +23,7 @@ public class Player extends BasePlayer {
     public void addMoney(int amount, String[] args) {
         // Handle any modifiers here
 
-        this.Money += amount;
+        this.money += amount;
     }
 
     /**
@@ -29,7 +31,7 @@ public class Player extends BasePlayer {
      * @param item the item to be added
      */
     public void addItem(Item item) {
-        this.Items.add(item);
+        this.items.add(item);
     }
 
 }

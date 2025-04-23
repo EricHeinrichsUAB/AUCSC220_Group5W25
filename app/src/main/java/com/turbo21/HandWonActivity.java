@@ -28,7 +28,7 @@ public class HandWonActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.nextButton);
 
         roundScore.setText(String.format("Round Score: %s", GameManager.Player.actualScore));
-        overallScore.setText(String.format("Overall Score: %s", GameManager.Player.OverallScore));
+        overallScore.setText(String.format("Overall Score: %s", GameManager.Player.overallScore));
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
