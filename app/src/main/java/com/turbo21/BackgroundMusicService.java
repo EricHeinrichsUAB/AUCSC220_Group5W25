@@ -12,18 +12,26 @@ Used https://www.youtube.com/watch?v=DI1CQVlpR0U for reference on how to play ba
  */
 
 public class BackgroundMusicService extends android.app.Service {
-    MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
+    public static boolean isRunning = false;
 
     @Override
     @Nullable
     public IBinder onBind(Intent intent){return null;}
 
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("myLog", "Starting playing");
-        mediaPlayer = MediaPlayer.create(this, R.raw.spinning_monkeys);
-        mediaPlayer.start();
-        return super.onStartCommand(intent, flags, startId);
+        if (!isRunning) {
+            Log.d("myLog", "Starting music");
+            mediaPlayer = MediaPlayer.create(this, R.raw.spinning_monkeys);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+            isRunning = true;
+        } else {
+            Log.d("myLog", "Music already running");
+        }
+        return START_STICKY;
     }
 
     @Override
@@ -34,8 +42,12 @@ public class BackgroundMusicService extends android.app.Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        isRunning = false;
+        Log.d("myLog", "Music stopped");
     }
 }
