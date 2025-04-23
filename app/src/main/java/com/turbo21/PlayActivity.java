@@ -114,7 +114,6 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 else {
                     handler.postDelayed(() -> {
-                        GameManager.IsDealersTurn = false;
                         endRound();
                     }, 1000);
                 }
