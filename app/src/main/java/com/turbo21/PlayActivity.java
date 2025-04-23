@@ -54,6 +54,8 @@ public class PlayActivity extends AppCompatActivity {
                 addCardToHand(playerHand, player);
                 updateScore(playerScore, player);
 
+                player.cardsDrawn++;
+
                 if (player.actualScore > 21) {
                     GameManager.IsDealersTurn = true;
                     // Delays transitioning to the next screen by 1 second
@@ -204,7 +206,7 @@ public class PlayActivity extends AppCompatActivity {
         // one for round number
         // one for how close to 21
 
-        player.OverallScore += score;
+        player.overallScore += score;
     }
 
     /**
