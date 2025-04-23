@@ -24,7 +24,8 @@ public class BackgroundMusicService extends android.app.Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (!isRunning) {
             Log.d("myLog", "Starting music");
-            mediaPlayer = MediaPlayer.create(this, R.raw.spinning_monkeys);
+            mediaPlayer = MediaPlayer.create(this, R.raw.background_jazz);
+            /* Audio from https://www.youtube.com/watch?v=Sg4uMnX0QfI */
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
             isRunning = true;
