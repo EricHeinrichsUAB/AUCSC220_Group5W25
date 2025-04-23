@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 public class SettingsActivity extends AppCompatActivity {
 
     private Button backButton;
+    private Button musicButton;
+    boolean isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,20 @@ public class SettingsActivity extends AppCompatActivity {
 
             }//onClick
         });//setOnClickListener
-    }
+        musicButton = findViewById(R.id.toggleButtonMusic);
+        musicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPlaying) {
+                    stopService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
+                    isPlaying = false;
+                } else {
+                    startService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
+                    isPlaying = true;
+                }
+            }//onClick
+
+        });//setOnClickListener
+    };//onCreate
 
 }

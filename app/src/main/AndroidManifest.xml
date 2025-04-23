@@ -50,5 +50,6 @@
             android:exported="true">
         </activity>
 
+        <service android:name=".BackgroundMusicService"/>
     </application>
 </manifest>
