@@ -92,6 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
                         .edit()
                         .putString("difficulty", difficulty)
                         .apply();
+                GameManager.Difficulty = difficulty;
             }//onClick
 
         };//setOnClickListener
