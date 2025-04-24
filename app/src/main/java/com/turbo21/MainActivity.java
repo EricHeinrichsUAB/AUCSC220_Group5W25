@@ -39,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        /* Check if music is enabled in shared preferences */
         boolean musicEnabled = getSharedPreferences("prefs", MODE_PRIVATE)
                 .getBoolean("music_enabled", true); /* true by default */
 
+        /* If music is enabled and not running, start the background music service */
         if (musicEnabled && !BackgroundMusicService.isRunning) {
             startService(new Intent(this, BackgroundMusicService.class));
         }
