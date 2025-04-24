@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        boolean musicEnabled = getSharedPreferences("prefs", MODE_PRIVATE)
+                .getBoolean("music_enabled", true); /* true by default */
+
+        if (musicEnabled && !BackgroundMusicService.isRunning) {
+            startService(new Intent(this, BackgroundMusicService.class));
+        }
 
         playButton = findViewById(R.id.playButton);
         settingsButton = findViewById(R.id.settingsButton);

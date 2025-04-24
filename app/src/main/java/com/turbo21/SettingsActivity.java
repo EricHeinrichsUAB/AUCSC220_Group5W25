@@ -26,9 +26,6 @@ public class SettingsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        if (!BackgroundMusicService.isRunning) {
-            startService(new Intent(this, BackgroundMusicService.class));
-        }
 
         backButton = findViewById(R.id.backButton);
 
@@ -47,11 +44,18 @@ public class SettingsActivity extends AppCompatActivity {
         musicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BackgroundMusicService.isRunning) {
+                boolean turnOff = BackgroundMusicService.isRunning;
+
+                if (turnOff) {
                     stopService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
                 } else {
                     startService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
                 }
+
+                getSharedPreferences("prefs", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("music_enabled", !turnOff)
+                        .apply();
             }//onClick
 
         });//setOnClickListener
