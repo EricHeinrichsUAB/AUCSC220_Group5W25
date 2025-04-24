@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         if (musicEnabled && !BackgroundMusicService.isRunning) {
             startService(new Intent(this, BackgroundMusicService.class));
         }
+        GameManager.Difficulty = getSharedPreferences("prefs", MODE_PRIVATE)
+                .getString("difficulty", "medium");
 
         playButton = findViewById(R.id.playButton);
         settingsButton = findViewById(R.id.settingsButton);
