@@ -30,7 +30,7 @@ public class Player extends BasePlayer {
     public void subtractMoney(int amount) {
         // Handle any modifiers here
 
-        this.Money -= amount;
+        this.money -= amount;
     }
 
     /**

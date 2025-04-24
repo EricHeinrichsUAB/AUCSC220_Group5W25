@@ -291,7 +291,7 @@ public class PlayActivity extends AppCompatActivity {
 
     public void applyScoreMultipliers(int finalScore) {
         finalScore *= bullseyeMultiplier;
-        player.OverallScore += finalScore;
+        player.overallScore += finalScore;
     }
 
     /**
