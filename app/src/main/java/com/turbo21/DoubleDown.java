@@ -9,7 +9,6 @@ public class DoubleDown extends Item {
         this.playActivity = activity;
     }
 
-    @Override
     public void UseItem(int score) {
         //
     }

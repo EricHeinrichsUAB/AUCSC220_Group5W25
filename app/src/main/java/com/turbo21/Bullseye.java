@@ -10,7 +10,6 @@ public class Bullseye extends Item {
         super("Bullseye", "Gives bonus points if you end with 19-21.", 100);
     }
 
-    @Override
     public void UseItem(int finalScore) {
         switch(finalScore) {
             case 19:

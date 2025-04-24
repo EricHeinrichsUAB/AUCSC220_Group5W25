@@ -11,7 +11,6 @@ public abstract class Item {
         this.description = description;
         this.cost = cost;
     }
-    public abstract void UseItem(int score);
 
     @Override
     public String toString() {
