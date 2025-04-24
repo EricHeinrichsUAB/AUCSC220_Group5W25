@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 /*
+Service for playing background music
 Used https://www.youtube.com/watch?v=DI1CQVlpR0U for reference on how to play background music
  */
 
@@ -17,6 +18,7 @@ public class BackgroundMusicService extends android.app.Service {
 
     @Override
     @Nullable
+    /* Service not bindable. Can only be started and stopped with startService and stopService */
     public IBinder onBind(Intent intent){return null;}
 
 
@@ -32,6 +34,7 @@ public class BackgroundMusicService extends android.app.Service {
         } else {
             Log.d("myLog", "Music already running");
         }
+        /* service restarts if killed*/
         return START_STICKY;
     }
 
