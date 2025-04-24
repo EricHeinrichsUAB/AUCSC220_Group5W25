@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -41,6 +42,14 @@ public class PlayActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+        // Disables the back button so the player can't cheat
+        // Not a perfect solution but it works
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+            }
+        });
+
         setContentView(R.layout.play_screen); // Set the play screen layout
 
         gameScreen = findViewById(R.id.gameScreen);
@@ -53,7 +62,6 @@ public class PlayActivity extends AppCompatActivity {
 
         playerScore = findViewById(R.id.playerScore);
         dealerScore = findViewById(R.id.dealerScore);
-
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
