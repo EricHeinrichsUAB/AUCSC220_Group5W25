@@ -12,5 +12,4 @@ public class DoubleDown extends Item {
     public void UseItem(int score) {
         //
     }
-
 }

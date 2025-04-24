@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -29,11 +30,32 @@ public class PlayActivity extends AppCompatActivity {
     Bullseye bullseye;
     private double bullseyeMultiplier = 1.0;
     SwitchStrike switchstrike;
+    private Boolean switchStrikeUsed = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides the title and navigation bar
+        // Taken directly from https://stackoverflow.com/questions/30812606/how-to-hide-navigation-bar-in-android-app
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        // Changes the back button to instead send the player back to the main menu
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(PlayActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         setContentView(R.layout.play_screen); // Set the play screen layout
 
         gameScreen = findViewById(R.id.gameScreen);
@@ -49,7 +71,6 @@ public class PlayActivity extends AppCompatActivity {
         playerScore = findViewById(R.id.playerScore);
         dealerScore = findViewById(R.id.dealerScore);
 
-
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +81,10 @@ public class PlayActivity extends AppCompatActivity {
                 addCardToHand(playerHand, player);
                 updateScore(playerScore, player);
 
+                player.cardsDrawn++;
+
                 if (player.actualScore > 21) {
+                    GameManager.IsDealersTurn = true;
                     // Delays transitioning to the next screen by 1 second
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
@@ -84,6 +108,8 @@ public class PlayActivity extends AppCompatActivity {
         BullseyeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (GameManager.IsDealersTurn) return;
+
                 bullseye = new Bullseye();
                 bullseye.UseItem(player.actualScore);
                 bullseyeMultiplier = bullseye.multiplier;
@@ -93,6 +119,9 @@ public class PlayActivity extends AppCompatActivity {
         SwitchStrikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (GameManager.IsDealersTurn) return;
+                if (switchStrikeUsed) return;
+
                 switchstrike = new SwitchStrike();
 
                 // Remove all cards from each hand
@@ -104,13 +133,17 @@ public class PlayActivity extends AppCompatActivity {
                 dealer.cards = switchstrike.newDealerHand;
                 player.cards = switchstrike.newPlayerHand;
 
+                // Add cards to each hand
+                addCardToPlayerHand(playerHand);
+                addCardToDealerHand(dealerHand);
+
                 // Switch scores
                 updateScore(dealerScore, dealer);
                 updateScore(playerScore, player);
 
-                // Add cards to each hand
-                addCardToPlayerHand(playerHand);
-                addCardToDealerHand(dealerHand);
+                // Disable button
+                switchStrikeUsed = true;
+                SwitchStrikeButton.setEnabled(false);
             }
         });
 
@@ -143,15 +176,14 @@ public class PlayActivity extends AppCompatActivity {
         Runnable dealerFunction = new Runnable() {
             @Override
             public void run() {
-                addCardToHand(dealerHand, dealer);
-                updateScore(dealerScore, dealer);
-
                 if (GameManager.IsStillDealersTurn()) {
+                    addCardToHand(dealerHand, dealer);
+                    updateScore(dealerScore, dealer);
+
                     handler.postDelayed(this, 1000);
                 }
                 else {
                     handler.postDelayed(() -> {
-                        GameManager.IsDealersTurn = false;
                         endRound();
                     }, 1000);
                 }
@@ -165,10 +197,10 @@ public class PlayActivity extends AppCompatActivity {
         // Add player.cards (player's new cards) into playerHand
         for (int i = 0; i < player.cards.size(); i++) {
             ImageView newCard = new ImageView(PlayActivity.this);
-            Card cardData = player.cards.get(i); //Card
+            Card cardData = player.cards.get(i);
             int id;
 
-            if (cardData == player.cards.get(0)) {
+            if (cardData.IsHidden) {
                 cardData.toggleHidden();
             }
 
@@ -184,6 +216,10 @@ public class PlayActivity extends AppCompatActivity {
             ImageView newCard = new ImageView(PlayActivity.this);
             Card cardData = dealer.cards.get(i); //Card
             int id;
+
+            if (i == 0) {
+                cardData.toggleHidden();
+            }
 
             id = getResourceId(PlayActivity.this, cardData.FileName);
             newCard.setImageResource(id);
@@ -269,7 +305,7 @@ public class PlayActivity extends AppCompatActivity {
 
     public void applyScoreMultipliers(int finalScore) {
         finalScore *= bullseyeMultiplier;
-        player.OverallScore += finalScore;
+        player.overallScore += finalScore;
     }
 
     /**

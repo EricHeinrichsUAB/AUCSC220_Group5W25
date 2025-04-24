@@ -83,8 +83,8 @@ public class ShopActivity extends AppCompatActivity {
             String itemAsString = boughtItem.toString();  // outputs "Bullseye"
 
             String message = "Bought: " + itemAsString +
-                    "\nMoney left: " + player.Money +
-                    "\nInventory: " + player.Items;
+                    "\nMoney left: " + player.money +
+                    "\nInventory: " + player.items;
 
             itemBoughtText.setText(message);
             itemBoughtText.setTextColor(Color.parseColor("red"));

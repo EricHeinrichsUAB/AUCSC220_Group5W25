@@ -1,7 +1,5 @@
 package com.turbo21;
 
-import java.util.ArrayList;
-
 public class Bullseye extends Item {
 
     double multiplier;
@@ -20,6 +18,9 @@ public class Bullseye extends Item {
                 break;
             case 21:
                 multiplier = 3;
+                break;
+            default:
+                multiplier = 1;
                 break;
         }
     }

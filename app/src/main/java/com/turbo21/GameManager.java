@@ -4,20 +4,22 @@ package com.turbo21;
 import java.util.Random;
 
 public class GameManager {
-    private static int RoundNumber;
+    public static int RoundNumber;
     public static boolean IsDealersTurn;
     public static Random RandomNumberGenerator = new Random();
     public static Deck Deck = new Deck();
     private static Shop Shop;
     public static BasePlayer Dealer;
     public static Player Player;
+    public static String Difficulty = "medium";
+
 
     /**
      * Initializes game variables for the start of a new game, then transitions the view to
      * the main game activity and begins the primary game loop
      */
     public static void StartGame() {
-        RoundNumber = 0;
+        RoundNumber = -1; // Hacky solution to round number being 1 higher than expected
         Dealer = new BasePlayer();
         Player = new Player();
 
@@ -59,10 +61,25 @@ public class GameManager {
 
         boolean stillDealersTurn;
 
+
+        int dealerDifficultyInt;
+
+        switch (Difficulty) {
+            case "easy":
+                dealerDifficultyInt = 16;
+                break;
+            case "hard":
+                dealerDifficultyInt = 18;
+                break;
+            default: /* medium is default */
+                dealerDifficultyInt = 17;
+                break;
+        }
+
         if (Dealer.actualScore > Player.actualScore) {
             stillDealersTurn = false;
         }
-        else if (Dealer.actualScore < 18) {
+        else if (Dealer.actualScore < dealerDifficultyInt) {
             stillDealersTurn = true;
         }
         else {

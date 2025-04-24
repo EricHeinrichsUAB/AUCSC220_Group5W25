@@ -22,5 +22,4 @@ public class SwitchStrike extends Item {
         newDealerHand = dealerHand;
         newPlayerHand = playerHand;
     }
-
 }
