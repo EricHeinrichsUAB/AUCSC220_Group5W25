@@ -31,11 +31,12 @@ public class HandWonActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        // Disables the back button so the player can't cheat
-        // Not a perfect solution but it works
+        // Changes the back button to instead send the player back to the main menu
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                Intent intent = new Intent(HandWonActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
