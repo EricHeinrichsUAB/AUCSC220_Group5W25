@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
@@ -58,6 +59,51 @@ public class SettingsActivity extends AppCompatActivity {
             }//onClick
 
         });//setOnClickListener
+        ToggleButton easyButton = findViewById(R.id.easyDifficultyButton);
+        ToggleButton mediumButton = findViewById(R.id.mediumDifficultyButton);
+        ToggleButton hardButton = findViewById(R.id.hardDifficultyButton);
+
+        View.OnClickListener difficultyListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToggleButton selected = (ToggleButton) v;
+
+                easyButton.setChecked(selected == easyButton);
+                mediumButton.setChecked(selected == mediumButton);
+                hardButton.setChecked(selected == hardButton);
+
+                String difficulty = "medium";
+                if (selected == easyButton) {
+                    difficulty = "easy";
+                } else if (selected == hardButton) {
+                    difficulty = "hard";
+                }
+                getSharedPreferences("prefs", MODE_PRIVATE)
+                        .edit()
+                        .putString("difficulty", difficulty)
+                        .apply();
+            }//onClick
+
+        };//setOnClickListener
+
+        easyButton.setOnClickListener(difficultyListener);
+        mediumButton.setOnClickListener(difficultyListener);
+        hardButton.setOnClickListener(difficultyListener);
+
+        String difficultySelected = getSharedPreferences("prefs", MODE_PRIVATE)
+                .getString("difficulty", "medium");
+        switch (difficultySelected) {
+            case "easy":
+                easyButton.setChecked(true);
+                break;
+            case "medium":
+                mediumButton.setChecked(true);
+                break;
+            case "hard":
+                hardButton.setChecked(true);
+                break;
+        }
+
     }//onCreate
 
 }

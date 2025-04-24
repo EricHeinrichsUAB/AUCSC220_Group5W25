@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
-        android:id="@+id/toggleButton1"
+        android:id="@+id/easyDifficultyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -76,12 +76,12 @@
         app:layout_constraintTop_toBottomOf="@id/textView2" />
 
     <ToggleButton
-        android:id="@+id/toggleButton2"
+        android:id="@+id/mediumDifficultyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView3"
         android:text="ToggleButton"
-        app:layout_constraintStart_toStartOf="@id/toggleButton1"
+        app:layout_constraintStart_toStartOf="@id/easyDifficultyButton"
         app:layout_constraintTop_toTopOf="@id/textView3" />
 
     <TextView
@@ -98,12 +98,12 @@
         app:layout_constraintTop_toBottomOf="@id/textView3" />
 
     <ToggleButton
-        android:id="@+id/toggleButton3"
+        android:id="@+id/hardDifficultyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView4"
         android:text="ToggleButton"
-        app:layout_constraintStart_toStartOf="@id/toggleButton2"
+        app:layout_constraintStart_toStartOf="@id/mediumDifficultyButton"
         app:layout_constraintTop_toTopOf="@id/textView4" />
 
     <TextView
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView4"
         android:text="ToggleButton"
-        app:layout_constraintStart_toStartOf="@id/toggleButton3"
+        app:layout_constraintStart_toStartOf="@id/hardDifficultyButton"
         app:layout_constraintTop_toTopOf="@id/textView5" />
 
     <Button
