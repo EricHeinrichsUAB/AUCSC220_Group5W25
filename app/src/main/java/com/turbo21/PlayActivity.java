@@ -30,6 +30,7 @@ public class PlayActivity extends AppCompatActivity {
     Bullseye bullseye;
     private double bullseyeMultiplier = 1.0;
     SwitchStrike switchstrike;
+    private Boolean switchStrikeUsed = false;
 
 
     @Override
@@ -119,6 +120,7 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (GameManager.IsDealersTurn) return;
+                if (switchStrikeUsed) return;
 
                 switchstrike = new SwitchStrike();
 
@@ -138,6 +140,10 @@ public class PlayActivity extends AppCompatActivity {
                 // Switch scores
                 updateScore(dealerScore, dealer);
                 updateScore(playerScore, player);
+
+                // Disable button
+                switchStrikeUsed = true;
+                SwitchStrikeButton.setEnabled(false);
             }
         });
 
@@ -191,7 +197,7 @@ public class PlayActivity extends AppCompatActivity {
         // Add player.cards (player's new cards) into playerHand
         for (int i = 0; i < player.cards.size(); i++) {
             ImageView newCard = new ImageView(PlayActivity.this);
-            Card cardData = player.cards.get(i); //Card
+            Card cardData = player.cards.get(i);
             int id;
 
             if (cardData.IsHidden) {
