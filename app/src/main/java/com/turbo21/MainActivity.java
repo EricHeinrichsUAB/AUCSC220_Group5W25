@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button playButton;
     private Button settingsButton;
+    private Button shopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         playButton = findViewById(R.id.playButton);
         settingsButton = findViewById(R.id.settingsButton);
+        shopButton = findViewById(R.id.shopButton);
 
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -75,5 +77,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the SettingsActivity
+                Intent intent = new Intent(MainActivity.this, ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

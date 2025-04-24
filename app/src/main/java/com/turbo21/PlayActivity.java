@@ -20,13 +20,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PlayActivity extends AppCompatActivity {
     private ConstraintLayout gameScreen;
-    private Button hitButton, standButton;
+    private Button hitButton, standButton, BullseyeButton, SwitchStrikeButton;
     private LinearLayout playerHand;
     private LinearLayout dealerHand;
     private TextView playerScore;
     private TextView dealerScore;
     private Player player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
+    Bullseye bullseye;
+    private double bullseyeMultiplier = 1.0;
+    SwitchStrike switchstrike;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,8 @@ public class PlayActivity extends AppCompatActivity {
 
         hitButton = findViewById(R.id.hitButton);
         standButton = findViewById(R.id.standButton);
+        BullseyeButton = findViewById(R.id.BullseyeButton);
+        SwitchStrikeButton = findViewById(R.id.SwitchStrikeButton);
 
         playerHand = findViewById(R.id.playerHand);
         dealerHand = findViewById(R.id.dealerHand);
@@ -94,6 +100,40 @@ public class PlayActivity extends AppCompatActivity {
 
                 GameManager.IsDealersTurn = true;
                 doDealersTurn();
+            }
+        });
+
+        // Remember to make it so that this can only be clicked before/after player hit
+        BullseyeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bullseye = new Bullseye();
+                bullseye.UseItem(player.actualScore);
+                bullseyeMultiplier = bullseye.multiplier;
+            }
+        });
+
+        SwitchStrikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchstrike = new SwitchStrike();
+
+                // Remove all cards from each hand
+                playerHand.removeAllViews();
+                dealerHand.removeAllViews();
+
+                // Switch cards
+                switchstrike.UseItem(dealer.cards, player.cards);
+                dealer.cards = switchstrike.newDealerHand;
+                player.cards = switchstrike.newPlayerHand;
+
+                // Switch scores
+                updateScore(dealerScore, dealer);
+                updateScore(playerScore, player);
+
+                // Add cards to each hand
+                addCardToPlayerHand(playerHand);
+                addCardToDealerHand(dealerHand);
             }
         });
 
@@ -141,6 +181,37 @@ public class PlayActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(dealerFunction, 1000);
+    }
+
+    private void addCardToPlayerHand(LinearLayout hand) {
+        // Add player.cards (player's new cards) into playerHand
+        for (int i = 0; i < player.cards.size(); i++) {
+            ImageView newCard = new ImageView(PlayActivity.this);
+            Card cardData = player.cards.get(i); //Card
+            int id;
+
+            if (cardData == player.cards.get(0)) {
+                cardData.toggleHidden();
+            }
+
+            id = getResourceId(PlayActivity.this, cardData.FileName);
+            newCard.setImageResource(id);
+
+            hand.addView(newCard);
+        }
+    }
+
+    private void addCardToDealerHand(LinearLayout hand) {
+        for (int i = 0; i < dealer.cards.size(); i++) {
+            ImageView newCard = new ImageView(PlayActivity.this);
+            Card cardData = dealer.cards.get(i); //Card
+            int id;
+
+            id = getResourceId(PlayActivity.this, cardData.FileName);
+            newCard.setImageResource(id);
+
+            hand.addView(newCard);
+        }
     }
 
     /**
@@ -207,8 +278,8 @@ public class PlayActivity extends AppCompatActivity {
             else {
                 vibrator.vibrate(100);
             }
+            applyScoreMultipliers(player.actualScore);
 
-            applyScoreMultipliers();
             intent = new Intent(PlayActivity.this, HandWonActivity.class);
         }
         else {
@@ -218,14 +289,9 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void applyScoreMultipliers() {
-        int score = player.actualScore;
-
-        // Do multipliers here
-        // one for round number
-        // one for how close to 21
-
-        player.overallScore += score;
+    public void applyScoreMultipliers(int finalScore) {
+        finalScore *= bullseyeMultiplier;
+        player.OverallScore += finalScore;
     }
 
     /**
@@ -259,5 +325,6 @@ public class PlayActivity extends AppCompatActivity {
         int id = resources.getIdentifier(name, "drawable", context.getPackageName());
         return id;
     }
+
 }
 

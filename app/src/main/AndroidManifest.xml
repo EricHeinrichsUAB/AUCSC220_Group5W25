@@ -54,6 +54,12 @@
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
+      
+        <!-- Shop Activity -->
+        <activity
+            android:name=".ShopActivity"
+            android:exported="true">
+        </activity>
 
         <service android:name=".BackgroundMusicService"/>
     </application>

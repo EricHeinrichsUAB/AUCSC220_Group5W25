@@ -8,6 +8,7 @@ public class Player extends BasePlayer {
     public int cardsDrawn;
     public ArrayList<Item> items;
 
+
     public Player() {
         super();
         this.money = 0;
@@ -24,6 +25,12 @@ public class Player extends BasePlayer {
         // Handle any modifiers here
 
         this.money += amount;
+    }
+
+    public void subtractMoney(int amount) {
+        // Handle any modifiers here
+
+        this.Money -= amount;
     }
 
     /**
