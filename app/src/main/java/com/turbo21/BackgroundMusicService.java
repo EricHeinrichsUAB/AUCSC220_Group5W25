@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 /*
 Service for playing background music
 Used https://www.youtube.com/watch?v=DI1CQVlpR0U for reference on how to play background music
- */
+*/
 
 public class BackgroundMusicService extends android.app.Service {
     private static MediaPlayer mediaPlayer;
