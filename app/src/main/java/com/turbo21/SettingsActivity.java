@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 public class SettingsActivity extends AppCompatActivity {
 
     private Button backButton;
-    private Button musicButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +69,6 @@ public class SettingsActivity extends AppCompatActivity {
             }//onClick
 
         });//setOnClickListener
-    };//onCreate
+    }//onCreate
 
 }
