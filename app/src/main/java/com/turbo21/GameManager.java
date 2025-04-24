@@ -11,6 +11,8 @@ public class GameManager {
     private static Shop Shop;
     public static BasePlayer Dealer;
     public static Player Player;
+    public static String Difficulty = "medium";
+
 
     /**
      * Initializes game variables for the start of a new game, then transitions the view to
@@ -59,10 +61,25 @@ public class GameManager {
 
         boolean stillDealersTurn;
 
+
+        int dealerDifficultyInt;
+
+        switch (Difficulty) {
+            case "easy":
+                dealerDifficultyInt = 16;
+                break;
+            case "hard":
+                dealerDifficultyInt = 18;
+                break;
+            default: /* medium is default */
+                dealerDifficultyInt = 17;
+                break;
+        }
+
         if (Dealer.actualScore > Player.actualScore) {
             stillDealersTurn = false;
         }
-        else if (Dealer.actualScore < 18) {
+        else if (Dealer.actualScore < dealerDifficultyInt) {
             stillDealersTurn = true;
         }
         else {

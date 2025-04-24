@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -30,6 +31,26 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides the title and navigation bar
+        // Taken directly from https://stackoverflow.com/questions/30812606/how-to-hide-navigation-bar-in-android-app
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        // Changes the back button to instead send the player back to the main menu
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(PlayActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         setContentView(R.layout.play_screen); // Set the play screen layout
 
         gameScreen = findViewById(R.id.gameScreen);
@@ -42,7 +63,6 @@ public class PlayActivity extends AppCompatActivity {
 
         playerScore = findViewById(R.id.playerScore);
         dealerScore = findViewById(R.id.dealerScore);
-
 
         // player can hit or stand
         hitButton.setOnClickListener(new View.OnClickListener() {
