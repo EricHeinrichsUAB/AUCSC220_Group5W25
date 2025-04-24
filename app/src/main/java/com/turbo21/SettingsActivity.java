@@ -62,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startService(new Intent(SettingsActivity.this, BackgroundMusicService.class));
                 }
 
+                /* Reference: https://developer.android.com/reference/android/content/SharedPreferences */
                 getSharedPreferences("prefs", MODE_PRIVATE)
                         .edit()
                         .putBoolean("music_enabled", !turnOff)
@@ -78,6 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ToggleButton selected = (ToggleButton) v;
 
+                /* Difficulty buttons behave like radiogroup, only one can be selected at a time */
                 easyButton.setChecked(selected == easyButton);
                 mediumButton.setChecked(selected == mediumButton);
                 hardButton.setChecked(selected == hardButton);
@@ -88,6 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
                 } else if (selected == hardButton) {
                     difficulty = "hard";
                 }
+                /* Store selected difficulty in shared preferences and GameManager */
                 getSharedPreferences("prefs", MODE_PRIVATE)
                         .edit()
                         .putString("difficulty", difficulty)
@@ -97,10 +100,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         };//setOnClickListener
 
+        /* Set listeners for difficulty buttons */
         easyButton.setOnClickListener(difficultyListener);
         mediumButton.setOnClickListener(difficultyListener);
         hardButton.setOnClickListener(difficultyListener);
 
+        /* Highlighting the difficulty button that was previously selected */
         String difficultySelected = getSharedPreferences("prefs", MODE_PRIVATE)
                 .getString("difficulty", "medium");
         switch (difficultySelected) {
