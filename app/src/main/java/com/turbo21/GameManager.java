@@ -47,18 +47,6 @@ public class GameManager {
         // Optionally, have the dealer keep track of every card that has been seen up to this point
         // and have it make its decision based on the probability that it will not go over
 
-        // easy CPU
-        // when player>CPU (and CPU<18), 30% chance that it will stand
-        // when CPU=18, 50% chance that it will hit
-
-        // medium CPU <- default
-        // when player>CPU (and CPU<18), 15% chance that it will stand
-        // when CPU=18, 30% chance that it will hit
-
-        // hard CPU
-        // when player>CPU (and CPU<18), 5% chance that it will stand
-        // when CPU=18, 15% chance that it will hit
-
         boolean stillDealersTurn;
 
 

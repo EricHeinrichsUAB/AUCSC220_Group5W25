@@ -32,22 +32,13 @@ public class ShopActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.screen_shop);
 
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.Settings), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-         */
-
         // Initialize player if not already initialized
         if (GameManager.Player == null) {
             GameManager.Player = new Player(); // Ensure Player constructor matches your implementation
         }
         player = GameManager.Player;
 
-        PlayActivity activity = new PlayActivity();
-        shop = new Shop(activity);
+        shop = new Shop();
 
         backButton2 = findViewById(R.id.backButton2);
         SwitchStrikeBuyButton = findViewById(R.id.SwitchStrikeBuyButton);

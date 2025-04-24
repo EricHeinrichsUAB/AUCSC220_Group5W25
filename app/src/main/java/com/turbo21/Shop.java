@@ -5,14 +5,12 @@ import java.util.ArrayList;
 public class Shop {
 
     public ArrayList<Item> ItemsCatelogue;
-    private PlayActivity playActivity;
 
-    public Shop(PlayActivity playActivity) {
-        this.playActivity = playActivity;
+    public Shop() {
         ItemsCatelogue = new ArrayList<>(3);
         ItemsCatelogue.add(new SwitchStrike());
         ItemsCatelogue.add(new Bullseye());
-        ItemsCatelogue.add(new DoubleDown(playActivity));
+        //ItemsCatelogue.add(new DoubleDown());
     }
 
     // Shop distributes the item (it has an unlimited quantity)

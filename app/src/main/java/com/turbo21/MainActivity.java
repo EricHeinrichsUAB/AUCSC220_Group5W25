@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // Create an Intent to start the PlayActivity
-                // Remember to cite this code
+                /* Create an Intent to start the PlayActivity
+                Source: https://stackoverflow.com/questions/7991393/how-to-switch-between-screens
+                 */
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(intent);
 

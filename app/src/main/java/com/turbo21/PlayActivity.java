@@ -104,7 +104,6 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-        // Remember to make it so that this can only be clicked before/after player hit
         BullseyeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
