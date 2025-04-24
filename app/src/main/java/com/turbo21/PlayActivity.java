@@ -27,6 +27,7 @@ public class PlayActivity extends AppCompatActivity {
     private Player player = GameManager.Player;
     private BasePlayer dealer = GameManager.Dealer;
     Bullseye bullseye;
+    private double bullseyeMultiplier = 1.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,9 @@ public class PlayActivity extends AppCompatActivity {
         BullseyeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bullseye = new Bullseye(PlayActivity.this);
+                bullseye = new Bullseye();
                 bullseye.UseItem(player.actualScore);
+                bullseyeMultiplier = bullseye.multiplier;
             }
         });
 
@@ -196,8 +198,8 @@ public class PlayActivity extends AppCompatActivity {
             else {
                 vibrator.vibrate(100);
             }
+            applyScoreMultipliers(player.actualScore);
 
-            //applyScoreMultipliers();
             intent = new Intent(PlayActivity.this, HandWonActivity.class);
         }
         else {
@@ -207,14 +209,9 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void applyScoreMultipliers(int score, double multiplier) {
-        //int score = player.actualScore;
-
-        // Do multipliers here
-        // one for round number
-        // one for how close to 21
-
-        player.OverallScore += score * multiplier;
+    public void applyScoreMultipliers(int finalScore) {
+        finalScore *= bullseyeMultiplier;
+        player.OverallScore += finalScore;
     }
 
     /**

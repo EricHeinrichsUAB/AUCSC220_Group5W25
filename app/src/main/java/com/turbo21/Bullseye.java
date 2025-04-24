@@ -4,24 +4,23 @@ import java.util.ArrayList;
 
 public class Bullseye extends Item {
 
-    PlayActivity playActivity;
+    double multiplier;
 
-    public Bullseye(PlayActivity activity) {
+    public Bullseye() {
         super("Bullseye", "Gives bonus points if you end with 19-21.", 100);
-        this.playActivity = activity;
     }
 
     @Override
-    public void UseItem(int score) {
-        switch(score) {
+    public void UseItem(int finalScore) {
+        switch(finalScore) {
             case 19:
-                playActivity.applyScoreMultipliers(score, 1.5);
+                multiplier = 1.5;
                 break;
             case 20:
-                playActivity.applyScoreMultipliers(score, 2);
+                multiplier = 2;
                 break;
             case 21:
-                playActivity.applyScoreMultipliers(score, 3);
+                multiplier = 3;
                 break;
         }
     }

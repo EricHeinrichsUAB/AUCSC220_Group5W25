@@ -11,7 +11,7 @@ public class Shop {
         this.playActivity = playActivity;
         ItemsCatelogue = new ArrayList<>(3);
         ItemsCatelogue.add(new SwitchStrike(playActivity));
-        ItemsCatelogue.add(new Bullseye(playActivity));
+        ItemsCatelogue.add(new Bullseye());
         ItemsCatelogue.add(new DoubleDown(playActivity));
     }
 
