@@ -107,6 +107,8 @@ public class PlayActivity extends AppCompatActivity {
         BullseyeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (GameManager.IsDealersTurn) return;
+
                 bullseye = new Bullseye();
                 bullseye.UseItem(player.actualScore);
                 bullseyeMultiplier = bullseye.multiplier;
@@ -116,6 +118,8 @@ public class PlayActivity extends AppCompatActivity {
         SwitchStrikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (GameManager.IsDealersTurn) return;
+
                 switchstrike = new SwitchStrike();
 
                 // Remove all cards from each hand
@@ -127,13 +131,13 @@ public class PlayActivity extends AppCompatActivity {
                 dealer.cards = switchstrike.newDealerHand;
                 player.cards = switchstrike.newPlayerHand;
 
-                // Switch scores
-                updateScore(dealerScore, dealer);
-                updateScore(playerScore, player);
-
                 // Add cards to each hand
                 addCardToPlayerHand(playerHand);
                 addCardToDealerHand(dealerHand);
+
+                // Switch scores
+                updateScore(dealerScore, dealer);
+                updateScore(playerScore, player);
             }
         });
 
@@ -190,7 +194,7 @@ public class PlayActivity extends AppCompatActivity {
             Card cardData = player.cards.get(i); //Card
             int id;
 
-            if (cardData == player.cards.get(0)) {
+            if (cardData.IsHidden) {
                 cardData.toggleHidden();
             }
 
@@ -206,6 +210,10 @@ public class PlayActivity extends AppCompatActivity {
             ImageView newCard = new ImageView(PlayActivity.this);
             Card cardData = dealer.cards.get(i); //Card
             int id;
+
+            if (i == 0) {
+                cardData.toggleHidden();
+            }
 
             id = getResourceId(PlayActivity.this, cardData.FileName);
             newCard.setImageResource(id);
